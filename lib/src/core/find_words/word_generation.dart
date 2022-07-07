@@ -1,3 +1,5 @@
+import 'dart:math';
+
 class WordGeneration {
   /// Find possible words if the user missed a letter
   static List<String> delete(String wordMisspelled) {
@@ -32,18 +34,19 @@ print(swap("trash"))
 
     List<String> swaps = [];
 
-    for (int i = 1; i < wordMisspelled.length - 1; i++) {
-      String prefix = wordMisspelled.substring(0, i - 1);
+    for (int i = 0; i < wordMisspelled.length - 1; i++) {
+      String prefix = wordMisspelled.substring(0, max(i, 0));
+      String suffix = wordMisspelled.substring(
+          min(wordMisspelled.length, i + 2), wordMisspelled.length);
+
+      String newWord =
+          prefix + wordMisspelled[i + 1] + wordMisspelled[i] + suffix;
+      swaps.add(newWord);
     }
 
     return swaps;
   }
 
-  /*
-  def insert(word):
-  letters = string.ascii_lowercase
-  return [l + c + r for l, r in split(word) for c in letters]
-   */
   /// Find possible words if user missed some char
   static List<String> insert(String wordMisspelled, List<String> letters) {
     if (wordMisspelled.isEmpty) {
@@ -68,21 +71,22 @@ print(swap("trash"))
     return inserted;
   }
 
-  /*
-  def replace(word):
-  letters = string.ascii_lowercase
-  return [l + c + r[1:] for l, r in split(word) if r for c in letters]
-
-print(replace("trash"))
-   */
   /// Find possible words if user replaced some char
   static List<String> replace(String wordMisspelled, List<String> letters) {
-    if (wordMisspelled.isEmpty) {
+    if (wordMisspelled.length <= 1) {
       return [];
     }
 
-    List<String> inserted = [];
-    //TODO
-    return inserted;
+    List<String> replaced = [];
+    for (int i = 0; i < wordMisspelled.length; i++) {
+      String prefix = wordMisspelled.substring(0, i);
+      String suffix = wordMisspelled.substring(i + 1, wordMisspelled.length);
+      for (String letter in letters) {
+        String block = prefix + letter + suffix;
+        replaced.add(block);
+      }
+    }
+
+    return replaced;
   }
 }

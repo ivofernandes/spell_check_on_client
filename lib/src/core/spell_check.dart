@@ -5,8 +5,10 @@ import 'package:spell_check_on_client/src/core/word_tokenizer.dart';
 class SpellCheck {
   final Map<String, int> words;
   final List<String> letters;
+  final int iterations;
 
-  const SpellCheck({required this.words, required this.letters});
+  const SpellCheck(
+      {required this.words, required this.letters, this.iterations = 2});
 
   /// Returns a list of words in the text that were not found in the dictionary
   List<String> unKnownWords(String text) {
@@ -56,7 +58,7 @@ class SpellCheck {
   /// Check a single word
   String didYouMeanWord(String word) {
     if (words[word] == null) {
-      return FindClosestWord.find(words, word, letters);
+      return FindClosestWord.find(words, word, letters, iterations);
     } else {
       return '';
     }
@@ -64,17 +66,17 @@ class SpellCheck {
 
   /// Constructor that will basically transform your list into an hashset
   static SpellCheck fromWordsList(List<String> wordsList,
-      {List<String>? letters}) {
+      {List<String>? letters, int iterations = 2}) {
     Map<String, int> words = {};
-    int value = words.length;
+    int value = wordsList.length;
 
     for (String word in wordsList) {
       words[word] = value;
-      value++;
+      value--;
     }
 
     letters ??= Letters.englishLetters();
 
-    return SpellCheck(words: words, letters: letters);
+    return SpellCheck(words: words, letters: letters, iterations: iterations);
   }
 }

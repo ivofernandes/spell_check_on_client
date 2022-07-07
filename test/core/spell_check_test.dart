@@ -16,15 +16,24 @@ void main() {
   test('Spell check mistyped an extra letter test', () {
     SpellCheck spellCheck = SpellCheck.fromWordsList(['cat', 'bat', 'hat']);
 
-    String didYouMean = spellCheck.didYouMean('brat');
+    String didYouMean = spellCheck.didYouMean('crat');
 
-    assert(didYouMean == 'bat');
+    assert(didYouMean == 'cat');
   });
 
   test('Spell check missing letter test', () {
     SpellCheck spellCheck = SpellCheck.fromWordsList(['cat', 'bat', 'hat']);
 
-    String didYouMean = spellCheck.didYouMean('ba');
+    String didYouMean = spellCheck.didYouMean('ca');
+
+    assert(didYouMean == 'cat');
+  });
+
+  test('Spell check replace letter test', () {
+    SpellCheck spellCheck =
+        SpellCheck.fromWordsList(['cat', 'bat', 'hat'], iterations: 1);
+
+    String didYouMean = spellCheck.didYouMean('bar');
 
     assert(didYouMean == 'bat');
   });
