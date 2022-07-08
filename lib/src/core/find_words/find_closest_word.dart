@@ -2,12 +2,35 @@ import 'package:spell_check_on_client/src/core/find_words/word_generation.dart';
 
 class FindClosestWord {
   /// Find the searched word
-  static String find(
-      Map<String, int> words, String word, List<String> letters) {
+  static String find(Map<String, int> allWords, String word,
+      List<String> letters, int iterations) {
+    word = word.toLowerCase();
     // Get the closest blocks from the input word
-    List<String> closeBlocks = [];
-    closeBlocks.addAll(edit(word, 2, 1, letters));
+    List<List<String>> closeBlocks = edit(word, iterations, 1, letters);
+    String bestWord = '';
+    int i = 0;
 
+    for (List<String> closeWords in closeBlocks) {
+      bestWord = pickBestWord(closeWords, allWords);
+
+      if (bestWord != '') {
+        break;
+      } else if (i == 0) {
+        // Try the replace
+        List<String> replaces = WordGeneration.replace(word, letters);
+        bestWord = pickBestWord(replaces, allWords);
+
+        if (bestWord != '') {
+          break;
+        }
+      }
+      i++;
+    }
+
+    return bestWord;
+  }
+
+  static String pickBestWord(List<String> closeBlocks, Map<String, int> words) {
     // Check what are the close blocks that exist in dictionary
     Map<String, int> closeWordsFound = {};
     for (String block in closeBlocks) {
@@ -35,14 +58,16 @@ class FindClosestWord {
   /// Get a list of words with all the edits
   /// @param iterations number of edits that will do
   /// @param currentStep current step of edits
-  static List<String> edit(
+  static List<List<String>> edit(
       String word, int iterations, int currentStep, List<String> letters) {
+    List<List<String>> result = [];
     List<String> list = [];
 
     list.addAll(WordGeneration.delete(word));
     list.addAll(WordGeneration.insert(word, letters));
     list.addAll(WordGeneration.swap(word));
-    list.addAll(WordGeneration.replace(word, letters));
+
+    result.add(list);
 
     // If there are more embedded edits, do a recursive call
     if (iterations > currentStep) {
@@ -50,12 +75,14 @@ class FindClosestWord {
       List<String> newEditsList = [];
 
       for (String wordInList in list) {
-        newEditsList.addAll(edit(wordInList, iterations, currentStep, letters));
+        newEditsList.addAll(WordGeneration.delete(wordInList));
+        newEditsList.addAll(WordGeneration.insert(wordInList, letters));
+        newEditsList.addAll(WordGeneration.swap(wordInList));
       }
 
-      list.addAll(newEditsList);
+      result.add(newEditsList);
     }
 
-    return list;
+    return result;
   }
 }

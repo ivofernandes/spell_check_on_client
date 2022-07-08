@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:spell_check_on_client/src/core/data/letters.dart';
 import 'package:spell_check_on_client/src/core/find_words/find_closest_word.dart';
 import 'package:spell_check_on_client/src/core/word_tokenizer.dart';
@@ -78,5 +80,15 @@ class SpellCheck {
     letters ??= Letters.englishLetters();
 
     return SpellCheck(words: words, letters: letters, iterations: iterations);
+  }
+
+  /// Constructor that receive a file content and generate the words
+  static SpellCheck fromWordsContent(String content,
+      {List<String>? letters, int iterations = 2}) {
+    List<String> words = const LineSplitter().convert(content);
+
+    letters ??= Letters.englishLetters();
+
+    return fromWordsList(words, letters: letters, iterations: 2);
   }
 }

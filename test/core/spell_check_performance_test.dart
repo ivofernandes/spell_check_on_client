@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:collection/collection.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:spell_check_on_client/src/core/spell_check.dart';
@@ -5,21 +7,28 @@ import 'package:spell_check_on_client/src/core/spell_check.dart';
 void main() {
   Function eq = const ListEquality().equals;
 
-  test('Tests on entire english dictionary test to find unknown words', () {
-    //TODO load the english dictionary
-    SpellCheck spellCheck = SpellCheck.fromWordsList(['cat', 'bat', 'hat']);
+  test('Test got from manual test', () async {
+    DateTime start = DateTime.now();
+    String filePath = 'example/assets/en_words.txt';
+    String content = await File(filePath).readAsString();
+    SpellCheck spellCheck = SpellCheck.fromWordsContent(content);
 
-    List<String> unknown = spellCheck.unKnownWords('a cat and bat');
+    DateTime loaded = DateTime.now();
 
-    assert(eq(unknown, ['a', 'and']));
-  });
+    String didYouMean = spellCheck.didYouMean('Mammalls Cann have babiis');
 
-  test('Spell check mistyped an extra letter test', () {
-    //TODO load the english dictionary
-    SpellCheck spellCheck = SpellCheck.fromWordsList(['cat', 'bat', 'hat']);
+    DateTime checked = DateTime.now();
 
-    String didYouMean = spellCheck.didYouMean('brat');
+    int timeSpentLoading =
+        loaded.millisecondsSinceEpoch - start.millisecondsSinceEpoch;
 
-    assert(didYouMean == 'bat');
+    int timeSpentChecking =
+        checked.millisecondsSinceEpoch - loaded.millisecondsSinceEpoch;
+
+    assert(didYouMean == 'mammals can have babies');
+
+    assert(timeSpentLoading < 200);
+
+    assert(timeSpentChecking < 200);
   });
 }
