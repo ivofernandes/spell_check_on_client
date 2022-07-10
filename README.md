@@ -1,39 +1,46 @@
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# Context
+Spell check is something that tends to be done in server side, but it actually don't need to be like that.
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages). 
+With an extra 1.5Mb of words in a text file you will be able to deliver a spell check with below 200ms response time and save cloud costs.
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages). 
--->
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+# How this package works
+This package uses an hashset comparison algorithm to deliver a spell check that can work offline in the client side 
 
 ## Features
-
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+- Tokenize a string with multiple words into single word tokens
+- Let the programmer configure what are the words so it can work in a multi language way
+- Find words in your text that are not in the dictionary
+- apply operations to find what are the possible words similar enough that belong to the dictionary
+- operations supported to find words: addition, deletion, swap, replace
+# Future features
 
 ## Getting started
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+Add the dependency to your `pubspec.yaml`:
+
+```
+spell_check: ^0.0.1
+```
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
+To use this package you will need to add the list of words as an asset inside your app
+https://github.com/ivofernandes/spell_check_on_client/tree/master/example/assets
+
 
 ```dart
-const like = 'sample';
+
 ```
 
-## Additional information
+If it looks to hard to use you can always start your app by forking this example app:
+https://github.com/ivofernandes/spell_check_on_client/blob/master/example/lib/main.dart
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+
+## Like us on pub.dev
+Package url:
+https://pub.dev/packages/spell_check_on_client
+
+
+## Instruction to publish the package to pub.dev
+dart pub publish
