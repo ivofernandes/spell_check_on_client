@@ -7,7 +7,7 @@ void main() {
   test('Generate letters for each language', () async {
     DateTime start = DateTime.now();
 
-    List<String> languages = ['pt', 'en'];
+    List<String> languages = ['pt', 'en', 'es'];
     for (String language in languages) {
       HashSet<String> letters = HashSet();
 

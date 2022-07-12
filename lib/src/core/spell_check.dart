@@ -59,7 +59,7 @@ class SpellCheck {
 
   /// Check a single word
   String didYouMeanWord(String word) {
-    if (words[word] == null) {
+    if (words[word.toLowerCase()] == null) {
       return FindClosestWord.find(words, word, letters, iterations);
     } else {
       return '';

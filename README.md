@@ -31,8 +31,20 @@ To use this package you will need to add the list of words as an asset inside yo
 https://github.com/ivofernandes/spell_check_on_client/tree/master/example/assets
 
 
+Then you need to init the check spell in an async method:
 ```dart
+ SpellCheck
+  void initSpellCheck() async {
+      String language = 'en';
+      String content = await rootBundle.loadString('assets/${language}_words.txt');
+       spellCheck = SpellCheck.fromWordsContent(content,
+          letters: LanguageLetters.getLanguageForLanguage(language));
+  }
+```
 
+Then you just need to call the did you mean method to receive a suggestion or an empty string if every word exists
+```dart
+  String didYouMean = spellCheck.didYouMean(text);
 ```
 
 If it looks to hard to use you can always start your app by forking this example app:

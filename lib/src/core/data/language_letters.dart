@@ -1,4 +1,10 @@
 class LanguageLetters {
+  static const Map<String, String> letters = {
+    'en': '-abcdefghijklmnopqrstuvwxyzàáâãäæçèéêìíîòóôõöùúûü',
+    'pt': '-abcdefghijklmnopqrstuvwxyzàáâãçèéêíóôõú',
+    'es': '-abcdefghijklmnopqrstuvwxyzàáçèéíîóöúü'
+  };
+
   static List<String> getLanguageForLanguage(String language) {
     if (language == 'pt') {
       return portugueseLetters();
@@ -7,71 +13,16 @@ class LanguageLetters {
     }
   }
 
-  static List<String> englishLetters() => [
-        'a',
-        'b',
-        'c',
-        'd',
-        'e',
-        'f',
-        'g',
-        'h',
-        'i',
-        'j',
-        'k',
-        'l',
-        'm',
-        'n',
-        'o',
-        'p',
-        'q',
-        'r',
-        's',
-        't',
-        'u',
-        'v',
-        'x',
-        'z',
-        '\''
-      ];
+  static List<String> convertToList(String text) {
+    List<String> result = [];
 
-  static portugueseLetters() {
-    return [
-      'a',
-      'b',
-      'c',
-      'd',
-      'e',
-      'f',
-      'g',
-      'h',
-      'i',
-      'j',
-      'k',
-      'l',
-      'm',
-      'n',
-      'o',
-      'p',
-      'q',
-      'r',
-      's',
-      't',
-      'u',
-      'v',
-      'x',
-      'z',
-      'ç',
-      'á',
-      'é',
-      'í',
-      'ó',
-      'ú',
-      'â',
-      'ê',
-      'î',
-      'ô',
-      'û'
-    ];
+    for (int i = 0; i < text.length; i++) {
+      result.add(text[i]);
+    }
+
+    return result;
   }
+
+  static List<String> englishLetters() => convertToList(letters['en']!);
+  static List<String> portugueseLetters() => convertToList(letters['pt']!);
 }

@@ -30,7 +30,11 @@ class LanguageSelection extends StatefulWidget {
 }
 
 class _LanguageSelectionState extends State<LanguageSelection> {
-  final Map<String, String> languages = {'English': 'en', 'Portuguese': 'pt'};
+  final Map<String, String> languages = {
+    'English': 'en',
+    'Portuguese': 'pt',
+    'Español': 'es'
+  };
 
   String language = 'English';
 
@@ -41,11 +45,19 @@ class _LanguageSelectionState extends State<LanguageSelection> {
           title: const Text('Spell check'),
           actions: [
             DropdownButton<String>(
+              dropdownColor: Theme.of(context).primaryColor,
+              icon: Icon(
+                Icons.arrow_drop_down,
+                color: Theme.of(context).canvasColor,
+              ),
               value: language,
               items: languages.keys.map((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
-                  child: Text(value),
+                  child: Text(
+                    value,
+                    style: TextStyle(color: Theme.of(context).canvasColor),
+                  ),
                 );
               }).toList(),
               onChanged: (String? language) {
