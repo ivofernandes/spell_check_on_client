@@ -33,7 +33,10 @@ class _LanguageSelectionState extends State<LanguageSelection> {
   final Map<String, String> languages = {
     'English': 'en',
     'Portuguese': 'pt',
-    'Español': 'es'
+    'Español': 'es',
+    'Italiano': 'it',
+    'Deutsch': 'de',
+    'Français': 'fr'
   };
 
   String language = 'English';

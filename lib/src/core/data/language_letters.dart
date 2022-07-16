@@ -2,7 +2,10 @@ class LanguageLetters {
   static const Map<String, String> letters = {
     'en': '-abcdefghijklmnopqrstuvwxyzàáâãäæçèéêìíîòóôõöùúûü',
     'pt': '-abcdefghijklmnopqrstuvwxyzàáâãçèéêíóôõú',
-    'es': '-abcdefghijklmnopqrstuvwxyzàáçèéíîóöúü'
+    'es': '-abcdefghijklmnopqrstuvwxyzàáçèéíîóöúü',
+    'it': 'abcdefghijklmnopqrstuvwxyzàáâãäçèéêìíîòóõöùúü',
+    'de': 'abcdefghijklmnopqrstuvwxyzàáâäæçèéêíîóôöûü',
+    'fr': 'abcdefghijklmnopqrstuvwxyzàáâãäæçèéêìíîòóôõöùúûü'
   };
 
   static List<String> getLanguageForLanguage(String language) {
