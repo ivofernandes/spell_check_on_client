@@ -22,7 +22,7 @@ This package uses an hashset comparison algorithm to deliver a spell check that 
 Add the dependency to your `pubspec.yaml`:
 
 ```
-spell_check_on_client: ^0.0.1
+spell_check_on_client: ^0.0.2
 ```
 
 ## Usage
