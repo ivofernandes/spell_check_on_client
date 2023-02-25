@@ -1,4 +1,7 @@
+/// This class is used to get the letters of a language
+/// This is quite important to addiction and replace edits
 class LanguageLetters {
+  /// List of letters for each language
   static const Map<String, String> letters = {
     'en': '-abcdefghijklmnopqrstuvwxyzàáâãäæçèéêìíîòóôõöùúûü',
     'pt': '-abcdefghijklmnopqrstuvwxyzàáâãçèéêíóôõú',
@@ -8,12 +11,11 @@ class LanguageLetters {
     'fr': 'abcdefghijklmnopqrstuvwxyzàáâãäæçèéêìíîòóôõöùúûü'
   };
 
+  static final List<String> _allLetters = letters.values.join().split('').toSet().toList();
+
   static List<String> getLanguageForLanguage(String language) {
-    if (language == 'pt') {
-      return portugueseLetters();
-    } else {
-      return englishLetters();
-    }
+    final languageLetters = letters[language] ?? letters['en']!;
+    return convertToList(languageLetters);
   }
 
   static List<String> convertToList(String text) {
@@ -27,5 +29,8 @@ class LanguageLetters {
   }
 
   static List<String> englishLetters() => convertToList(letters['en']!);
+
   static List<String> portugueseLetters() => convertToList(letters['pt']!);
+
+  static get getAllLetters => _allLetters;
 }

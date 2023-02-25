@@ -1,5 +1,7 @@
 import 'dart:math';
 
+/// Generate possible words from a misspelled word using the following operations
+/// delete, swap, insert, replace
 class WordGeneration {
   /// Find possible words if the user missed a letter
   static List<String> delete(String wordMisspelled) {
@@ -20,12 +22,6 @@ class WordGeneration {
     return deletes;
   }
 
-  /*
-  def swap(word):
-  return [l + r[1] + r[0] + r[2:] for l, r in split(word) if len(r)>1]
-
-print(swap("trash"))
-   */
   /// Find possible words if user swapped some chars
   static List<String> swap(String wordMisspelled) {
     if (wordMisspelled.length <= 1) {
@@ -36,11 +32,9 @@ print(swap("trash"))
 
     for (int i = 0; i < wordMisspelled.length - 1; i++) {
       String prefix = wordMisspelled.substring(0, max(i, 0));
-      String suffix = wordMisspelled.substring(
-          min(wordMisspelled.length, i + 2), wordMisspelled.length);
+      String suffix = wordMisspelled.substring(min(wordMisspelled.length, i + 2), wordMisspelled.length);
 
-      String newWord =
-          prefix + wordMisspelled[i + 1] + wordMisspelled[i] + suffix;
+      String newWord = prefix + wordMisspelled[i + 1] + wordMisspelled[i] + suffix;
       swaps.add(newWord);
     }
 

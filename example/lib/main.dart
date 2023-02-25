@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LanguageSelection(),
+      home: const LanguageSelection(),
     );
   }
 }
@@ -82,6 +82,7 @@ class _LanguageSelectionState extends State<LanguageSelection> {
 
 class SpellCheckExample extends StatefulWidget {
   final String language;
+
   const SpellCheckExample({required this.language, Key? key}) : super(key: key);
 
   @override
@@ -111,17 +112,14 @@ class _SpellCheckExampleState extends State<SpellCheckExample> {
               maxLines: 4,
               controller: controller,
               decoration: InputDecoration(
-                  focusColor: Theme.of(context).textTheme.bodyText1!.color,
+                  focusColor: Theme.of(context).textTheme.bodyLarge!.color,
                   contentPadding: const EdgeInsets.all(10.0),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(
-                          color: Theme.of(context).colorScheme.primary)),
+                      borderSide: BorderSide(color: Theme.of(context).colorScheme.primary)),
                   focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(
-                          color:
-                              Theme.of(context).textTheme.bodyText1!.color!))),
+                      borderSide: BorderSide(color: Theme.of(context).textTheme.bodyLarge!.color!))),
             ),
             MaterialButton(
                 shape: RoundedRectangleBorder(
@@ -163,17 +161,14 @@ class _SpellCheckExampleState extends State<SpellCheckExample> {
 
   void initSpellCheck() async {
     DateTime start = DateTime.now();
-    String content =
-        await rootBundle.loadString('assets/${widget.language}_words.txt');
+    String content = await rootBundle.loadString('assets/${widget.language}_words.txt');
 
-    spellCheck = SpellCheck.fromWordsContent(content,
-        letters: LanguageLetters.getLanguageForLanguage(widget.language));
+    spellCheck = SpellCheck.fromWordsContent(content, letters: LanguageLetters.getLanguageForLanguage(widget.language));
     DateTime parsed = DateTime.now();
 
-    int timeSpent =
-        parsed.millisecondsSinceEpoch - start.millisecondsSinceEpoch;
+    int timeSpent = parsed.millisecondsSinceEpoch - start.millisecondsSinceEpoch;
     logController.text += 'Load ${timeSpent}ms\n';
-    print('Time spent');
+    debugPrint('Time spent');
   }
 
   void spellCheckValidate() {

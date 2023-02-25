@@ -1,7 +1,8 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:spell_check_on_client/src/core/data/language_letters.dart';
+import 'package:spell_check_on_client/src/core/language_letters.dart';
 import 'package:spell_check_on_client/src/core/spell_check.dart';
 
 void main() {
@@ -17,17 +18,17 @@ void main() {
 
     DateTime checked = DateTime.now();
 
-    int timeSpentLoading =
-        loaded.millisecondsSinceEpoch - start.millisecondsSinceEpoch;
+    int timeSpentLoading = loaded.millisecondsSinceEpoch - start.millisecondsSinceEpoch;
 
-    int timeSpentChecking =
-        checked.millisecondsSinceEpoch - loaded.millisecondsSinceEpoch;
+    int timeSpentChecking = checked.millisecondsSinceEpoch - loaded.millisecondsSinceEpoch;
 
-    print('didYouMean: $didYouMean');
+    debugPrint('didYouMean: $didYouMean');
     assert(didYouMean == 'mammals can have babies');
 
+    debugPrint('timeSpentLoading: $timeSpentLoading');
     assert(timeSpentLoading < 200);
 
+    debugPrint('timeSpentChecking: $timeSpentChecking');
     assert(timeSpentChecking < 200);
   });
 
@@ -35,8 +36,7 @@ void main() {
     DateTime start = DateTime.now();
     String filePath = 'example/assets/pt_words.txt';
     String content = await File(filePath).readAsString();
-    SpellCheck spellCheck = SpellCheck.fromWordsContent(content,
-        letters: LanguageLetters.portugueseLetters());
+    SpellCheck spellCheck = SpellCheck.fromWordsContent(content, letters: LanguageLetters.portugueseLetters());
 
     DateTime loaded = DateTime.now();
 
@@ -44,18 +44,17 @@ void main() {
 
     DateTime checked = DateTime.now();
 
-    int timeSpentLoading =
-        loaded.millisecondsSinceEpoch - start.millisecondsSinceEpoch;
+    int timeSpentLoading = loaded.millisecondsSinceEpoch - start.millisecondsSinceEpoch;
 
-    int timeSpentChecking =
-        checked.millisecondsSinceEpoch - loaded.millisecondsSinceEpoch;
+    int timeSpentChecking = checked.millisecondsSinceEpoch - loaded.millisecondsSinceEpoch;
 
-    print('didYouMean: $didYouMean');
-
+    debugPrint('didYouMean: $didYouMean');
     assert(didYouMean == 'mamíferos podem ter bébés');
 
+    debugPrint('timeSpentLoading: $timeSpentLoading');
     assert(timeSpentLoading < 200);
 
+    debugPrint('timeSpentChecking: $timeSpentChecking');
     assert(timeSpentChecking < 200);
   });
 }

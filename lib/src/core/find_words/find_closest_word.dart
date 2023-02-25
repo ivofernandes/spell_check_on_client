@@ -1,65 +1,67 @@
 import 'package:spell_check_on_client/src/core/find_words/word_generation.dart';
+import 'package:spell_check_on_client/src/core/find_words/words_filter.dart';
 
 class FindClosestWord {
-  /// Find the searched word
-  static String find(Map<String, int> allWords, String word,
-      List<String> letters, int iterations) {
+  /// Find a list of closest words
+  static List<String> list(
+    Map<String, dynamic> allWords,
+    String word,
+    List<String> letters,
+    int iterations,
+    bool useMapValuesAsRelevance,
+    int maxWords,
+  ) {
     word = word.toLowerCase();
     // Get the closest blocks from the input word
     List<List<String>> closeBlocks = edit(word, iterations, 1, letters);
-    String bestWord = '';
+    List<String> bestWords = [];
     int i = 0;
 
     for (List<String> closeWords in closeBlocks) {
-      bestWord = pickBestWord(closeWords, allWords);
+      bestWords = WordsFilter.pickBestWords(closeWords, allWords, useMapValuesAsRelevance, maxWords);
 
-      if (bestWord != '') {
+      int remainingSpace = maxWords - bestWords.length;
+      if (remainingSpace <= 0) {
         break;
       } else if (i == 0) {
-        // Try the replace
+        // Try the replace this is a last resort mechanism
+        // As it can quite easily find words
+        // in a next iteration the replace can take in consideration the keyboard configuration
         List<String> replaces = WordGeneration.replace(word, letters);
-        bestWord = pickBestWord(replaces, allWords);
+        bestWords.addAll(WordsFilter.pickBestWords(replaces, allWords, useMapValuesAsRelevance, remainingSpace));
 
-        if (bestWord != '') {
+        if (bestWords.length >= maxWords) {
           break;
         }
       }
       i++;
     }
 
-    return bestWord;
+    return bestWords;
   }
 
-  static String pickBestWord(List<String> closeBlocks, Map<String, int> words) {
-    // Check what are the close blocks that exist in dictionary
-    Map<String, int> closeWordsFound = {};
-    for (String block in closeBlocks) {
-      int? relevance = words[block];
-      if (relevance != null) {
-        closeWordsFound[block] = relevance;
-      }
-    }
+  /// Find the searched word
+  static String find(
+    Map<String, dynamic> allWords,
+    String word,
+    List<String> letters,
+    int iterations,
+    bool useMapValuesAsRelevance,
+  ) {
+    final listWords = list(allWords, word, letters, iterations, useMapValuesAsRelevance, 1);
 
-    // Pick the most relevant word
-    int bestRelevance = 0;
-    String bestWord = '';
-    for (String word in closeWordsFound.keys) {
-      int relevance = closeWordsFound[word]!;
-
-      if (relevance > bestRelevance) {
-        bestRelevance = relevance;
-        bestWord = word;
-      }
-    }
-
-    return bestWord;
+    return listWords.isNotEmpty ? listWords[0] : '';
   }
 
   /// Get a list of words with all the edits
   /// @param iterations number of edits that will do
   /// @param currentStep current step of edits
   static List<List<String>> edit(
-      String word, int iterations, int currentStep, List<String> letters) {
+    String word,
+    int iterations,
+    int currentStep,
+    List<String> letters,
+  ) {
     List<List<String>> result = [];
     List<String> list = [];
 
