@@ -85,7 +85,8 @@ class SpellCheck {
   /// Check a single word
   String didYouMeanWord(String word) {
     if (words[word.toLowerCase()] == null) {
-      return FindClosestWord.find(words, word, letters ?? LanguageLetters.getAllLetters, iterations, hasRelevance);
+      return FindClosestWord.find(words, word,
+          letters ?? LanguageLetters.getAllLetters, iterations, hasRelevance);
     } else {
       return '';
     }
@@ -97,11 +98,17 @@ class SpellCheck {
     int maxWords = 50,
   }) {
     return FindClosestWord.list(
-        words, wordInput, letters ?? LanguageLetters.getAllLetters, iterations, hasRelevance, maxWords);
+        words,
+        wordInput,
+        letters ?? LanguageLetters.getAllLetters,
+        iterations,
+        hasRelevance,
+        maxWords);
   }
 
   /// Constructor that will basically transform your list into an hashset
-  static SpellCheck fromWordsList(List<String> wordsList, {List<String>? letters, int iterations = 2}) {
+  static SpellCheck fromWordsList(List<String> wordsList,
+      {List<String>? letters, int iterations = 2}) {
     Map<String, int> words = {};
     int value = wordsList.length;
 
@@ -116,7 +123,8 @@ class SpellCheck {
   }
 
   /// Constructor that receive a file content and generate the words
-  static SpellCheck fromWordsContent(String content, {List<String>? letters, int iterations = 2}) {
+  static SpellCheck fromWordsContent(String content,
+      {List<String>? letters, int iterations = 2}) {
     List<String> words = const LineSplitter().convert(content);
 
     letters ??= LanguageLetters.getAllLetters;

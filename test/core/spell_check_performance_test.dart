@@ -18,9 +18,11 @@ void main() {
 
     DateTime checked = DateTime.now();
 
-    int timeSpentLoading = loaded.millisecondsSinceEpoch - start.millisecondsSinceEpoch;
+    int timeSpentLoading =
+        loaded.millisecondsSinceEpoch - start.millisecondsSinceEpoch;
 
-    int timeSpentChecking = checked.millisecondsSinceEpoch - loaded.millisecondsSinceEpoch;
+    int timeSpentChecking =
+        checked.millisecondsSinceEpoch - loaded.millisecondsSinceEpoch;
 
     debugPrint('didYouMean: $didYouMean');
     assert(didYouMean == 'mammals can have babies');
@@ -36,7 +38,8 @@ void main() {
     DateTime start = DateTime.now();
     String filePath = 'example/assets/pt_words.txt';
     String content = await File(filePath).readAsString();
-    SpellCheck spellCheck = SpellCheck.fromWordsContent(content, letters: LanguageLetters.portugueseLetters());
+    SpellCheck spellCheck = SpellCheck.fromWordsContent(content,
+        letters: LanguageLetters.portugueseLetters());
 
     DateTime loaded = DateTime.now();
 
@@ -44,9 +47,11 @@ void main() {
 
     DateTime checked = DateTime.now();
 
-    int timeSpentLoading = loaded.millisecondsSinceEpoch - start.millisecondsSinceEpoch;
+    int timeSpentLoading =
+        loaded.millisecondsSinceEpoch - start.millisecondsSinceEpoch;
 
-    int timeSpentChecking = checked.millisecondsSinceEpoch - loaded.millisecondsSinceEpoch;
+    int timeSpentChecking =
+        checked.millisecondsSinceEpoch - loaded.millisecondsSinceEpoch;
 
     debugPrint('didYouMean: $didYouMean');
     assert(didYouMean == 'mamíferos podem ter bébés');

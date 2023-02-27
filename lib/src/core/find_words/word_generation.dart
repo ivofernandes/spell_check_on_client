@@ -32,9 +32,11 @@ class WordGeneration {
 
     for (int i = 0; i < wordMisspelled.length - 1; i++) {
       String prefix = wordMisspelled.substring(0, max(i, 0));
-      String suffix = wordMisspelled.substring(min(wordMisspelled.length, i + 2), wordMisspelled.length);
+      String suffix = wordMisspelled.substring(
+          min(wordMisspelled.length, i + 2), wordMisspelled.length);
 
-      String newWord = prefix + wordMisspelled[i + 1] + wordMisspelled[i] + suffix;
+      String newWord =
+          prefix + wordMisspelled[i + 1] + wordMisspelled[i] + suffix;
       swaps.add(newWord);
     }
 

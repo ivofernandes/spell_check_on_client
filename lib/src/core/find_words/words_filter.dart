@@ -1,12 +1,13 @@
-
-
 class WordsFilter {
   /// Pick the best word based on the relevance of each word
-  static List<String> pickBestWords(List<String> closeBlocks,
-      Map<String, dynamic> words,
-      bool useMapValuesAsRelevance,
-      int maxWords,) {
-    Map<String, int> closeWordsFound = _getRelevanceMap(closeBlocks, words, useMapValuesAsRelevance);
+  static List<String> pickBestWords(
+    List<String> closeBlocks,
+    Map<String, dynamic> words,
+    bool useMapValuesAsRelevance,
+    int maxWords,
+  ) {
+    Map<String, int> closeWordsFound =
+        _getRelevanceMap(closeBlocks, words, useMapValuesAsRelevance);
 
     // Reverse the map to get the words with the most relevance
     Map<int, List<String>> relevanceMap = {};
@@ -39,9 +40,11 @@ class WordsFilter {
   }
 
   /// Get a map of found words to it's relevance in the dictionary
-  static Map<String, int> _getRelevanceMap(List<String> closeBlocks,
-      Map<String, dynamic> words,
-      bool useMapValuesAsRelevance,) {
+  static Map<String, int> _getRelevanceMap(
+    List<String> closeBlocks,
+    Map<String, dynamic> words,
+    bool useMapValuesAsRelevance,
+  ) {
     // Check what are the close blocks that exist in dictionary
     Map<String, int> closeWordsFound = {};
     for (String block in closeBlocks) {

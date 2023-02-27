@@ -11,7 +11,8 @@ class LanguageLetters {
     'fr': 'abcdefghijklmnopqrstuvwxyzàáâãäæçèéêìíîòóôõöùúûü'
   };
 
-  static final List<String> _allLetters = letters.values.join().split('').toSet().toList();
+  static final List<String> _allLetters =
+      letters.values.join().split('').toSet().toList();
 
   static List<String> getLanguageForLanguage(String language) {
     final languageLetters = letters[language] ?? letters['en']!;
