@@ -51,6 +51,24 @@ class SpellCheck {
     return unknownWords;
   }
 
+  /// Returns percentage of words that were found in the dictionary
+  double getPercentageCorrect(String text) {
+    List<String> blocks = WordTokenizer.tokenize(text);
+    int correctWords = 0;
+    for (String word in blocks) {
+      if (words.containsKey(word)) {
+        correctWords++;
+      }
+    }
+
+    return correctWords / blocks.length;
+  }
+
+  /// Check if the word exists
+  bool isCorrect(String word) {
+    return words.containsKey(word);
+  }
+
   /// Returns empty string if thinks the content is fine
   /// or some text if it thinks you mean something else
   String didYouMean(String contentToCheck) {
@@ -85,8 +103,7 @@ class SpellCheck {
   /// Check a single word
   String didYouMeanWord(String word) {
     if (words[word.toLowerCase()] == null) {
-      return FindClosestWord.find(words, word,
-          letters ?? LanguageLetters.getAllLetters, iterations, hasRelevance);
+      return FindClosestWord.find(words, word, letters ?? LanguageLetters.getAllLetters, iterations, hasRelevance);
     } else {
       return '';
     }
@@ -97,18 +114,24 @@ class SpellCheck {
     String wordInput, {
     int maxWords = 50,
   }) {
-    return FindClosestWord.list(
-        words,
-        wordInput,
-        letters ?? LanguageLetters.getAllLetters,
-        iterations,
-        hasRelevance,
-        maxWords);
+    List<String> result = FindClosestWord.list(
+      words,
+      wordInput,
+      letters ?? LanguageLetters.getAllLetters,
+      iterations,
+      hasRelevance,
+      maxWords,
+    );
+
+    if (result.length > maxWords) {
+      result = result.sublist(0, maxWords);
+    }
+
+    return result;
   }
 
   /// Constructor that will basically transform your list into an hashset
-  static SpellCheck fromWordsList(List<String> wordsList,
-      {List<String>? letters, int iterations = 2}) {
+  static SpellCheck fromWordsList(List<String> wordsList, {List<String>? letters, int iterations = 2}) {
     Map<String, int> words = {};
     int value = wordsList.length;
 
@@ -123,8 +146,7 @@ class SpellCheck {
   }
 
   /// Constructor that receive a file content and generate the words
-  static SpellCheck fromWordsContent(String content,
-      {List<String>? letters, int iterations = 2}) {
+  static SpellCheck fromWordsContent(String content, {List<String>? letters, int iterations = 2}) {
     List<String> words = const LineSplitter().convert(content);
 
     letters ??= LanguageLetters.getAllLetters;
