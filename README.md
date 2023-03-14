@@ -3,7 +3,7 @@ Spell check is something that tends to be done in server side, but it actually d
 
 With an extra 1.5Mb of words in a text file you will be able to deliver a spell check with below 200ms response time and save cloud costs.
 
-![Spell check](https://raw.githubusercontent.com/ivofernandes/spell_check_on_client/master/docs/screenshot.png?raw=true)
+![Spell check](https://raw.githubusercontent.com/ivofernandes/spell_check_on_client/master/doc/screenshot.png?raw=true)
 
 # How this package works
 This package uses an hashset comparison algorithm to deliver a spell check that can work offline in the client side 

@@ -37,4 +37,23 @@ void main() {
     assert(options.isNotEmpty);
     assert(options.length == 5);
   });
+
+  test('Test the order of results', () {
+    const SpellCheck spellCheck = SpellCheck(words: {
+      'on': 0,
+      'oi': 0,
+      'ni': 0,
+      'ji': 0,
+      'joia': 0,
+      'ovni': 0,
+      'joio': 0,
+      'comi': 0,
+    });
+
+    List<String> options = spellCheck.didYouMeanAny('soni', maxWords: 10);
+
+    assert(options.isNotEmpty);
+    assert(options.length == 5);
+    assert(options[0] == 'comi');
+  });
 }

@@ -3,30 +3,57 @@ import 'package:spell_check_on_client/src/core/find_words/words_filter.dart';
 
 class FindClosestWord {
   /// Find a list of closest words
-  static List<String> list(Map<String, dynamic> allWords,
-      String word,
-      List<String> letters,
-      int iterations,
-      bool useMapValuesAsRelevance,
-      int maxWords,) {
+  static List<String> list(
+    Map<String, dynamic> allWords,
+    String word,
+    List<String> letters,
+    int iterations,
+    bool useMapValuesAsRelevance,
+    int maxWords,
+  ) {
     word = word.toLowerCase();
     List<String> bestWords = [];
 
-    List<String> replaceConsonants = WordGeneration.replace(word, letters, replaceVowels: false);
-    bestWords.addAll(WordsFilter.pickBestWords(replaceConsonants, allWords, useMapValuesAsRelevance, maxWords));
+    // Start by replacing just one consonant
+    List<String> replaceConsonants =
+        WordGeneration.replace(word, letters, replaceVowels: false);
+    final consonants = WordsFilter.pickBestWords(
+        replaceConsonants, allWords, useMapValuesAsRelevance, maxWords);
+    bestWords.addAll(consonants);
 
     int remainingSpace = maxWords - bestWords.length;
     if (remainingSpace <= 0) {
       return bestWords;
     }
 
+    // Then iterate over to replace two consonants
+    List<String> replaceConsonantsSecondIteration = [];
+    for (final consonant in replaceConsonants) {
+      List<String> iteration =
+          WordGeneration.replace(consonant, letters, replaceVowels: false);
+      replaceConsonantsSecondIteration.addAll(iteration);
+    }
+
+    final consonantsSecond = WordsFilter.pickBestWords(
+        replaceConsonantsSecondIteration,
+        allWords,
+        useMapValuesAsRelevance,
+        maxWords);
+    bestWords.addAll(consonantsSecond);
+
+    if (maxWords - bestWords.length <= 0) {
+      return bestWords;
+    }
+
+    // Then move on to delete, insert and swap edits
     // Get the closest blocks from the input word
     List<List<String>> closeBlocks = edit(word, iterations, 1, letters);
 
     int i = 0;
 
     for (List<String> closeWords in closeBlocks) {
-      List<String> firstIteration = WordsFilter.pickBestWords(closeWords, allWords, useMapValuesAsRelevance, maxWords);
+      List<String> firstIteration = WordsFilter.pickBestWords(
+          closeWords, allWords, useMapValuesAsRelevance, maxWords);
       bestWords.addAll(firstIteration);
 
       remainingSpace = maxWords - bestWords.length;
@@ -37,7 +64,8 @@ class FindClosestWord {
         // As it can quite easily find words
         // in a next iteration the replace can take in consideration the keyboard configuration
         List<String> replaces = WordGeneration.replace(word, letters);
-        bestWords.addAll(WordsFilter.pickBestWords(replaces, allWords, useMapValuesAsRelevance, remainingSpace));
+        bestWords.addAll(WordsFilter.pickBestWords(
+            replaces, allWords, useMapValuesAsRelevance, remainingSpace));
 
         if (bestWords.length >= maxWords) {
           break;
@@ -50,12 +78,15 @@ class FindClosestWord {
   }
 
   /// Find the searched word
-  static String find(Map<String, dynamic> allWords,
-      String word,
-      List<String> letters,
-      int iterations,
-      bool useMapValuesAsRelevance,) {
-    final listWords = list(allWords, word, letters, iterations, useMapValuesAsRelevance, 1);
+  static String find(
+    Map<String, dynamic> allWords,
+    String word,
+    List<String> letters,
+    int iterations,
+    bool useMapValuesAsRelevance,
+  ) {
+    final listWords =
+        list(allWords, word, letters, iterations, useMapValuesAsRelevance, 1);
 
     return listWords.isNotEmpty ? listWords[0] : '';
   }
@@ -63,10 +94,12 @@ class FindClosestWord {
   /// Get a list of words with all the edits
   /// @param iterations number of edits that will do
   /// @param currentStep current step of edits
-  static List<List<String>> edit(String word,
-      int iterations,
-      int currentStep,
-      List<String> letters,) {
+  static List<List<String>> edit(
+    String word,
+    int iterations,
+    int currentStep,
+    List<String> letters,
+  ) {
     List<List<String>> result = [];
     List<String> list = [];
 

@@ -9,3 +9,6 @@ Support for dynamic maps to avoid data structure duplications
 
 ## 0.0.4
 Fix formatting
+
+## 0.0.5
+Improved the find of words

@@ -34,9 +34,11 @@ class WordGeneration {
 
     for (int i = 0; i < wordMisspelled.length - 1; i++) {
       String prefix = wordMisspelled.substring(0, max(i, 0));
-      String suffix = wordMisspelled.substring(min(wordMisspelled.length, i + 2), wordMisspelled.length);
+      String suffix = wordMisspelled.substring(
+          min(wordMisspelled.length, i + 2), wordMisspelled.length);
 
-      String newWord = prefix + wordMisspelled[i + 1] + wordMisspelled[i] + suffix;
+      String newWord =
+          prefix + wordMisspelled[i + 1] + wordMisspelled[i] + suffix;
       swaps.add(newWord);
     }
 
@@ -68,10 +70,11 @@ class WordGeneration {
   }
 
   /// Find possible words if user replaced some char
-  static List<String> replace(String wordMisspelled,
-      List<String> letters, {
-        bool replaceVowels = true,
-      }) {
+  static List<String> replace(
+    String wordMisspelled,
+    List<String> letters, {
+    bool replaceVowels = true,
+  }) {
     if (wordMisspelled.length <= 1) {
       return [];
     }
@@ -93,6 +96,10 @@ class WordGeneration {
       String suffix = wordMisspelled.substring(i + 1, wordMisspelled.length);
       for (String letter in letters) {
         if (i == 0 && letter == '-') {
+          continue;
+        }
+        bool isVowel = vowels.contains(letter);
+        if (!replaceVowels && isVowel) {
           continue;
         }
 

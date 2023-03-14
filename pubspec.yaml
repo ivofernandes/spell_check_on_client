@@ -1,6 +1,6 @@
 name: spell_check_on_client
 description: Spell check on flutter on client side, works for multiple languages
-version: 0.0.4
+version: 0.0.5
 homepage: https://incaview.com
 repository: https://github.com/ivofernandes/spell_check_on_client
 

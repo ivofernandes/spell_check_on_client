@@ -14,7 +14,7 @@ void main() {
 
     DateTime loaded = DateTime.now();
 
-    String didYouMean = spellCheck.didYouMean('Mammalls Canp have babiis');
+    String didYouMean = spellCheck.didYouMean('Mammalls can have babiis');
 
     DateTime checked = DateTime.now();
 
@@ -43,7 +43,7 @@ void main() {
 
     DateTime loaded = DateTime.now();
 
-    String didYouMean = spellCheck.didYouMean('Mamiferos podemm tr bébés');
+    String didYouMean = spellCheck.didYouMean('Mamiferos podemm ter bébés');
 
     DateTime checked = DateTime.now();
 
