@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:spell_check_on_client/src/core/language_letters.dart';
 import 'package:spell_check_on_client/src/core/spell_check.dart';
@@ -24,13 +23,13 @@ void main() {
     int timeSpentChecking =
         checked.millisecondsSinceEpoch - loaded.millisecondsSinceEpoch;
 
-    debugPrint('didYouMean: $didYouMean');
+    print('didYouMean: $didYouMean');
     assert(didYouMean == 'mammals can have babies');
 
-    debugPrint('timeSpentLoading: $timeSpentLoading');
+    print('timeSpentLoading: $timeSpentLoading');
     assert(timeSpentLoading < 200);
 
-    debugPrint('timeSpentChecking: $timeSpentChecking');
+    print('timeSpentChecking: $timeSpentChecking');
     assert(timeSpentChecking < 200);
   });
 
@@ -53,13 +52,13 @@ void main() {
     int timeSpentChecking =
         checked.millisecondsSinceEpoch - loaded.millisecondsSinceEpoch;
 
-    debugPrint('didYouMean: $didYouMean');
+    print('didYouMean: $didYouMean');
     assert(didYouMean == 'mamíferos podem ter bébés');
 
-    debugPrint('timeSpentLoading: $timeSpentLoading');
+    print('timeSpentLoading: $timeSpentLoading');
     assert(timeSpentLoading < 200);
 
-    debugPrint('timeSpentChecking: $timeSpentChecking');
+    print('timeSpentChecking: $timeSpentChecking');
     assert(timeSpentChecking < 200);
   });
 }

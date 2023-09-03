@@ -1,7 +1,6 @@
 import 'dart:collection';
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -24,7 +23,7 @@ void main() {
       List<String> lettersList = letters.toList();
       lettersList.sort();
       String lettersString = lettersList.reduce((String a, String b) => '$a$b');
-      debugPrint('Letters for $language : $lettersString');
+      print('Letters for $language : $lettersString');
     }
   });
 }

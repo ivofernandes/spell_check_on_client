@@ -12,3 +12,6 @@ Fix formatting
 
 ## 0.0.5
 Improved the find of words
+
+## 0.0.6
+Dropped flutter dependency
