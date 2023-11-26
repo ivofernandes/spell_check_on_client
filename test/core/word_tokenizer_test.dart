@@ -1,42 +1,39 @@
-import 'package:collection/collection.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:spell_check_on_client/src/core/word_tokenizer.dart';
+import 'package:test/test.dart';
 
 void main() {
-  Function eq = const ListEquality().equals;
-  List<String> sharedValidation = [
-    'Now',
-    'We',
-    'will',
-    'do',
-    'a',
-    'more',
-    'complex',
-    'test',
-    'Will',
-    'it',
-    'work',
-    'Hope',
-    'so'
-  ];
+  group('WordTokenizer Tests', () {
+    const List<String> expectedTokens = [
+      'Now',
+      'We',
+      'will',
+      'do',
+      'a',
+      'more',
+      'complex',
+      'test',
+      'Will',
+      'it',
+      'work',
+      'Hope',
+      'so'
+    ];
 
-  test('Tokenizer spaced test', () {
-    List<String> words = WordTokenizer.tokenize('spaced text for test');
+    test('Tokenize text with spaces', () {
+      final List<String> tokens = WordTokenizer.tokenize('spaced text for test');
+      expect(tokens, equals(['spaced', 'text', 'for', 'test']));
+    });
 
-    assert(eq(words, ['spaced', 'text', 'for', 'test']));
-  });
+    test('Tokenize text with standard punctuation', () {
+      final List<String> tokens =
+          WordTokenizer.tokenize('Now! We will do, a more complex test...Will it work? Hope so :)');
+      expect(tokens, equals(expectedTokens));
+    });
 
-  test('Tokenizer with punctuation', () {
-    List<String> words = WordTokenizer.tokenize(
-        'Now! We will do, a more complex test...Will it work? Hope so :)');
-
-    assert(eq(words, sharedValidation));
-  });
-
-  test('Tokenizer with exaggerated punctuation', () {
-    List<String> words = WordTokenizer.tokenize(
-        'Now! (We) <will> [do], &a #more %complex test...Will: it; work? \\Hope+* so :)');
-
-    assert(eq(words, sharedValidation));
+    test('Tokenize text with exaggerated punctuation', () {
+      final List<String> tokens =
+          WordTokenizer.tokenize(r'Now! (We) <will> [do], &a #more %complex test...Will: it; work? \Hope+* so :)');
+      expect(tokens, equals(expectedTokens));
+    });
   });
 }

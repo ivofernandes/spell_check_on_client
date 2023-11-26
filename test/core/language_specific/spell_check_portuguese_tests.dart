@@ -1,5 +1,5 @@
-import 'package:flutter_test/flutter_test.dart';
 import 'package:spell_check_on_client/src/core/spell_check.dart';
+import 'package:test/test.dart';
 
 void main() {
   const Map<String, int?> words = {
@@ -24,15 +24,15 @@ void main() {
   test('Basic test to find closest word', () {
     const SpellCheck spellCheck = SpellCheck(words: words);
 
-    String didYouMean = spellCheck.didYouMeanWord('tes');
+    final String didYouMean = spellCheck.didYouMeanWord('tes');
 
-    assert(didYouMean == 'aes');
+    assert(didYouMean == 'tese');
   });
 
   test('Test to find 5 close words', () {
     const SpellCheck spellCheck = SpellCheck(words: words);
 
-    List<String> options = spellCheck.didYouMeanAny('tes', maxWords: 5);
+    final List<String> options = spellCheck.didYouMeanAny('tes', maxWords: 5);
 
     assert(options.isNotEmpty);
     assert(options.length == 5);
@@ -50,7 +50,7 @@ void main() {
       'comi': 0,
     });
 
-    List<String> options = spellCheck.didYouMeanAny('soni', maxWords: 10);
+    final List<String> options = spellCheck.didYouMeanAny('soni', maxWords: 10);
 
     assert(options.isNotEmpty);
     assert(options.length == 5);

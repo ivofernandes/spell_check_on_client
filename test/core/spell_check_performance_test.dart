@@ -1,27 +1,25 @@
 import 'dart:io';
 
-import 'package:flutter_test/flutter_test.dart';
 import 'package:spell_check_on_client/src/core/language_letters.dart';
 import 'package:spell_check_on_client/src/core/spell_check.dart';
+import 'package:test/test.dart';
 
 void main() {
   test('English test', () async {
-    DateTime start = DateTime.now();
-    String filePath = 'example/assets/en_words.txt';
-    String content = await File(filePath).readAsString();
-    SpellCheck spellCheck = SpellCheck.fromWordsContent(content);
+    final DateTime start = DateTime.now();
+    final String filePath = 'example/assets/en_words.txt';
+    final String content = await File(filePath).readAsString();
+    final SpellCheck spellCheck = SpellCheck.fromWordsContent(content);
 
-    DateTime loaded = DateTime.now();
+    final DateTime loaded = DateTime.now();
 
-    String didYouMean = spellCheck.didYouMean('Mammalls can have babiis');
+    final String didYouMean = spellCheck.didYouMean('Mammalls can have babiis');
 
-    DateTime checked = DateTime.now();
+    final DateTime checked = DateTime.now();
 
-    int timeSpentLoading =
-        loaded.millisecondsSinceEpoch - start.millisecondsSinceEpoch;
+    final int timeSpentLoading = loaded.millisecondsSinceEpoch - start.millisecondsSinceEpoch;
 
-    int timeSpentChecking =
-        checked.millisecondsSinceEpoch - loaded.millisecondsSinceEpoch;
+    final int timeSpentChecking = checked.millisecondsSinceEpoch - loaded.millisecondsSinceEpoch;
 
     print('didYouMean: $didYouMean');
     assert(didYouMean == 'mammals can have babies');
@@ -34,23 +32,20 @@ void main() {
   });
 
   test('Portuguese test', () async {
-    DateTime start = DateTime.now();
-    String filePath = 'example/assets/pt_words.txt';
-    String content = await File(filePath).readAsString();
-    SpellCheck spellCheck = SpellCheck.fromWordsContent(content,
-        letters: LanguageLetters.portugueseLetters());
+    final DateTime start = DateTime.now();
+    final String filePath = 'example/assets/pt_words.txt';
+    final String content = await File(filePath).readAsString();
+    final SpellCheck spellCheck = SpellCheck.fromWordsContent(content, letters: LanguageLetters.portugueseLetters());
 
-    DateTime loaded = DateTime.now();
+    final DateTime loaded = DateTime.now();
 
-    String didYouMean = spellCheck.didYouMean('Mamiferos podemm ter bébés');
+    final String didYouMean = spellCheck.didYouMean('Mamiferos podemm ter bébés');
 
-    DateTime checked = DateTime.now();
+    final DateTime checked = DateTime.now();
 
-    int timeSpentLoading =
-        loaded.millisecondsSinceEpoch - start.millisecondsSinceEpoch;
+    final int timeSpentLoading = loaded.millisecondsSinceEpoch - start.millisecondsSinceEpoch;
 
-    int timeSpentChecking =
-        checked.millisecondsSinceEpoch - loaded.millisecondsSinceEpoch;
+    final int timeSpentChecking = checked.millisecondsSinceEpoch - loaded.millisecondsSinceEpoch;
 
     print('didYouMean: $didYouMean');
     assert(didYouMean == 'mamíferos podem ter bébés');

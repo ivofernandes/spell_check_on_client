@@ -11,8 +11,7 @@ class LanguageLetters {
     'fr': 'abcdefghijklmnopqrstuvwxyzàáâãäæçèéêìíîòóôõöùúûü'
   };
 
-  static final List<String> _allLetters =
-      letters.values.join().split('').toSet().toList();
+  static final List<String> _allLetters = letters.values.join().split('').toSet().toList();
 
   static List<String> getLanguageForLanguage(String language) {
     final languageLetters = letters[language] ?? letters['en']!;
@@ -33,5 +32,5 @@ class LanguageLetters {
 
   static List<String> portugueseLetters() => convertToList(letters['pt']!);
 
-  static get getAllLetters => _allLetters;
+  static List<String> get getAllLetters => _allLetters;
 }

@@ -24,12 +24,23 @@ https://www.youtube.com/watch?v=YbMR9CEbvCE
 Add the dependency to your `pubspec.yaml`:
 
 ```
-spell_check_on_client: ^0.0.3
+spell_check_on_client: ^0.0.7
 ```
 
 ## Usage
 
-To use this package you will need to add the list of words as an asset inside your app
+To use this package you will need to add the list of words as an asset inside your app:
+- German - de_words.txt
+- English - en_words.txt
+- Spanish - es_words.txt
+- French - fr_words.txt
+- Italian - it_words.txt
+- Norwegian - no_words.txt
+- Portuguese - pt_words.txt
+- Swedish - sv_words.txt
+
+You can find the file assets here:
+
 https://github.com/ivofernandes/spell_check_on_client/tree/master/example/assets
 
 

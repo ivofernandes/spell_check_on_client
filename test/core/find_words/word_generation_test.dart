@@ -1,34 +1,29 @@
 import 'dart:convert';
 
-import 'package:collection/collection.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:spell_check_on_client/src/core/find_words/word_generation.dart';
+import 'package:test/test.dart';
 
 void main() {
-  Function eq = const ListEquality().equals;
+  // Utilize the built-in 'expect' function for assertions in tests
+  group('WordGeneration Tests', () {
+    test('Delete Letter', () {
+      final List<String> deletes = WordGeneration.delete('cat');
+      expect(deletes, equals(['at', 'ct', 'ca']));
+    });
 
-  test('Test delete letter', () {
-    List<String> deletes = WordGeneration.delete('cat');
+    test('Swap Letters', () {
+      final List<String> swaps = WordGeneration.swap('cat');
+      expect(swaps, equals(['act', 'cta']));
+    });
 
-    assert(eq(deletes, ['at', 'ct', 'ca']));
-  });
+    test('Insert Letters', () {
+      final List<String> inserted = WordGeneration.insert('cat', ['a', 'b']);
+      expect(inserted, equals(["acat", "bcat", "caat", "cbat", "caat", "cabt", "cata", "catb"]));
+    });
 
-  test('Test swap letters', () {
-    List<String> swaps = WordGeneration.swap('cat');
-
-    assert(eq(swaps, ['act', 'cta']));
-  });
-
-  test('Test insert letters', () {
-    List<String> inserted = WordGeneration.insert('cat', ['a', 'b']);
-    json.encode(inserted);
-    assert(eq(inserted,
-        ["acat", "bcat", "caat", "cbat", "caat", "cabt", "cata", "catb"]));
-  });
-
-  test('Test replace letters', () {
-    List<String> replace = WordGeneration.replace('cat', ['a', 'b']);
-
-    assert(eq(replace, ["aat", "bat", "cat", "cbt", "caa", "cab"]));
+    test('Replace Letters', () {
+      final List<String> replace = WordGeneration.replace('cat', ['a', 'b']);
+      expect(replace, equals(["aat", "bat", "cat", "cbt", "caa", "cab"]));
+    });
   });
 }

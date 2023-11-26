@@ -15,3 +15,6 @@ Improved the find of words
 
 ## 0.0.6
 Dropped flutter dependency
+
+## 0.0.7
+Improved documentation

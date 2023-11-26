@@ -1,40 +1,36 @@
-import 'package:collection/collection.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
 import 'package:spell_check_on_client/src/core/spell_check.dart';
 
 void main() {
-  Function eq = const ListEquality().equals;
+  group('SpellCheck Tests', () {
+    late SpellCheck spellCheck;
 
-  test('Basic test to find unknown words', () {
-    SpellCheck spellCheck = SpellCheck.fromWordsList(['cat', 'bat', 'hat']);
+    setUp(() {
+      // Initialize SpellCheck with a common set of words for all tests
+      spellCheck = SpellCheck.fromWordsList(['cat', 'bat', 'hat']);
+    });
 
-    List<String> unknown = spellCheck.unKnownWords('a cat and bat');
+    test('Find unknown words in a phrase', () {
+      final List<String> unknownWords = spellCheck.unKnownWords('a cat and bat');
+      expect(unknownWords, equals(['a', 'and']));
+    });
 
-    assert(eq(unknown, ['a', 'and']));
-  });
+    test('Correct a word with an extra letter', () {
+      final String correction = spellCheck.didYouMean('crat');
+      expect(correction, equals('cat'));
+    });
 
-  test('Spell check mistyped an extra letter test', () {
-    SpellCheck spellCheck = SpellCheck.fromWordsList(['cat', 'bat', 'hat']);
+    test('Correct a word with a missing letter', () {
+      final String correction = spellCheck.didYouMean('ca');
+      expect(correction, equals('cat'));
+    });
 
-    String didYouMean = spellCheck.didYouMean('crat');
+    test('Correct a word with a replaced letter', () {
+      // Re-initialize with a different iteration setting for this specific test
+      spellCheck = SpellCheck.fromWordsList(['cat', 'bat', 'hat'], iterations: 1);
 
-    assert(didYouMean == 'cat');
-  });
-
-  test('Spell check missing letter test', () {
-    SpellCheck spellCheck = SpellCheck.fromWordsList(['cat', 'bat', 'hat']);
-
-    String didYouMean = spellCheck.didYouMean('ca');
-
-    assert(didYouMean == 'cat');
-  });
-
-  test('Spell check replace letter test', () {
-    SpellCheck spellCheck =
-        SpellCheck.fromWordsList(['cat', 'bat', 'hat'], iterations: 1);
-
-    String didYouMean = spellCheck.didYouMean('bar');
-
-    assert(didYouMean == 'bat');
+      final String correction = spellCheck.didYouMean('bar');
+      expect(correction, equals('bat'));
+    });
   });
 }
