@@ -1,36 +1,49 @@
-/// This class is used to get the letters of a language
-/// This is quite important to addiction and replace edits
+/// This class is used to manage the letters of different languages
+/// It is essential for operations like addition and replacement in spell checking.
 class LanguageLetters {
-  /// List of letters for each language
+  /// Map of letters for each supported language
   static const Map<String, String> letters = {
-    'en': '-abcdefghijklmnopqrstuvwxyzàáâãäæçèéêìíîòóôõöùúûü',
-    'pt': '-abcdefghijklmnopqrstuvwxyzàáâãçèéêíóôõú',
-    'es': '-abcdefghijklmnopqrstuvwxyzàáçèéíîóöúü',
-    'it': 'abcdefghijklmnopqrstuvwxyzàáâãäçèéêìíîòóõöùúü',
-    'de': 'abcdefghijklmnopqrstuvwxyzàáâäæçèéêíîóôöûü',
-    'fr': 'abcdefghijklmnopqrstuvwxyzàáâãäæçèéêìíîòóôõöùúûü'
+    'de': 'abcdefghijklmnopqrstuvwxyzäöüß', // German
+    'en': 'abcdefghijklmnopqrstuvwxyz', // English
+    'es': 'abcdefghijklmnopqrstuvwxyzñ', // Spanish
+    'fr': 'abcdefghijklmnopqrstuvwxyzàâæçéèêëïîôœùûüÿ', // French
+    'it': 'abcdefghijklmnopqrstuvwxyzàèéìîòóù', // Italian
+    'no': 'abcdefghijklmnopqrstuvwxyzæøå', // Norwegian
+    'pt': 'abcdefghijklmnopqrstuvwxyzáâãàçéêíóôõú', // Portuguese
+    'sv': 'abcdefghijklmnopqrstuvwxyzåäö', // Swedish
   };
 
-  static final List<String> _allLetters = letters.values.join().split('').toSet().toList();
+  static final List<String> _allLetters = letters.values.expand((s) => s.split('')).toSet().toList();
 
-  static List<String> getLanguageForLanguage(String language) {
-    final languageLetters = letters[language] ?? letters['en']!;
-    return convertToList(languageLetters);
-  }
+  /// Retrieves the list of letters for a given language
+  /// Retrieves the list of letters for a specific language, defaulting to English if not found.
+  static List<String> getLanguageForLanguage(String language) =>
+      letters[language]?.split('') ?? letters['en']!.split('');
 
-  static List<String> convertToList(String text) {
-    List<String> result = [];
+  /// Returns a list of German letters.
+  static List<String> germanLetters() => letters['de']!.split('');
 
-    for (int i = 0; i < text.length; i++) {
-      result.add(text[i]);
-    }
+  /// Returns a list of English letters.
+  static List<String> englishLetters() => letters['en']!.split('');
 
-    return result;
-  }
+  /// Returns a list of Spanish letters.
+  static List<String> spanishLetters() => letters['es']!.split('');
 
-  static List<String> englishLetters() => convertToList(letters['en']!);
+  /// Returns a list of French letters.
+  static List<String> frenchLetters() => letters['fr']!.split('');
 
-  static List<String> portugueseLetters() => convertToList(letters['pt']!);
+  /// Returns a list of Italian letters.
+  static List<String> italianLetters() => letters['it']!.split('');
 
+  /// Returns a list of Norwegian letters.
+  static List<String> norwegianLetters() => letters['no']!.split('');
+
+  /// Returns a list of Portuguese letters.
+  static List<String> portugueseLetters() => letters['pt']!.split('');
+
+  /// Returns a list of Swedish letters.
+  static List<String> swedishLetters() => letters['sv']!.split('');
+
+  /// Retrieves all letters from the supported languages combined.
   static List<String> get getAllLetters => _allLetters;
 }

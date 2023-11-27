@@ -1,5 +1,5 @@
-import 'package:test/test.dart';
 import 'package:spell_check_on_client/src/core/spell_check.dart';
+import 'package:test/test.dart';
 
 void main() {
   group('SpellCheck Tests', () {

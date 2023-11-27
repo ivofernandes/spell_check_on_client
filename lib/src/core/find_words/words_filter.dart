@@ -11,7 +11,7 @@ class WordsFilter {
     // Reverse the map to get the words with the most relevance
     final Map<int, List<String>> relevanceMap = {};
 
-    for (String word in closeWordsFound.keys) {
+    for (final String word in closeWordsFound.keys) {
       final int relevance = closeWordsFound[word]!;
       if (relevanceMap[relevance] == null) {
         relevanceMap[relevance] = [];
@@ -25,7 +25,7 @@ class WordsFilter {
 
     // Get the best words
     final List<String> bestWords = [];
-    for (int relevance in relevanceList) {
+    for (final int relevance in relevanceList) {
       final List<String> words = relevanceMap[relevance]!;
       words.sort();
       bestWords.addAll(words);
@@ -46,7 +46,7 @@ class WordsFilter {
   ) {
     // Check what are the close blocks that exist in dictionary
     final Map<String, int> closeWordsFound = {};
-    for (String block in closeBlocks) {
+    for (final String block in closeBlocks) {
       int relevance = 0;
 
       // If the word exists in the dictionary

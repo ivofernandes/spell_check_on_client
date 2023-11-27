@@ -7,7 +7,7 @@ import 'package:test/test.dart';
 void main() {
   test('English test', () async {
     final DateTime start = DateTime.now();
-    final String filePath = 'example/assets/en_words.txt';
+    const String filePath = 'example/assets/en_words.txt';
     final String content = await File(filePath).readAsString();
     final SpellCheck spellCheck = SpellCheck.fromWordsContent(content);
 
@@ -33,9 +33,12 @@ void main() {
 
   test('Portuguese test', () async {
     final DateTime start = DateTime.now();
-    final String filePath = 'example/assets/pt_words.txt';
+    const String filePath = 'example/assets/pt_words.txt';
     final String content = await File(filePath).readAsString();
-    final SpellCheck spellCheck = SpellCheck.fromWordsContent(content, letters: LanguageLetters.portugueseLetters());
+    final SpellCheck spellCheck = SpellCheck.fromWordsContent(
+      content,
+      letters: LanguageLetters.portugueseLetters(),
+    );
 
     final DateTime loaded = DateTime.now();
 

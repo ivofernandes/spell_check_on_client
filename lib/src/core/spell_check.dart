@@ -39,10 +39,10 @@ class SpellCheck {
 
   /// Returns a list of words in the text that were not found in the dictionary
   List<String> unKnownWords(String text) {
-    List<String> unknownWords = [];
+    final List<String> unknownWords = [];
 
-    List<String> blocks = WordTokenizer.tokenize(text);
-    for (String word in blocks) {
+    final List<String> blocks = WordTokenizer.tokenize(text);
+    for (final String word in blocks) {
       if (!words.containsKey(word)) {
         unknownWords.add(word);
       }
@@ -53,9 +53,9 @@ class SpellCheck {
 
   /// Returns percentage of words that were found in the dictionary
   double getPercentageCorrect(String text) {
-    List<String> blocks = WordTokenizer.tokenize(text);
+    final List<String> blocks = WordTokenizer.tokenize(text);
     int correctWords = 0;
-    for (String word in blocks) {
+    for (final String word in blocks) {
       if (words.containsKey(word)) {
         correctWords++;
       }
@@ -75,10 +75,10 @@ class SpellCheck {
     String didYouMean = '';
 
     bool corrected = false;
-    List<String> blocks = WordTokenizer.tokenize(contentToCheck);
-    List<String> checkedBlocks = [];
-    for (String word in blocks) {
-      String correctWord = didYouMeanWord(word);
+    final List<String> blocks = WordTokenizer.tokenize(contentToCheck);
+    final List<String> checkedBlocks = [];
+    for (final String word in blocks) {
+      final String correctWord = didYouMeanWord(word);
       checkedBlocks.add(correctWord);
 
       if (correctWord != '') {
@@ -88,7 +88,7 @@ class SpellCheck {
 
     if (corrected) {
       for (int i = 0; i < checkedBlocks.length; i++) {
-        String separator = ' ';
+        final String separator = ' ';
         if (checkedBlocks[i] == '') {
           didYouMean += blocks[i] + separator;
         } else {
@@ -103,8 +103,7 @@ class SpellCheck {
   /// Check a single word
   String didYouMeanWord(String word) {
     if (words[word.toLowerCase()] == null) {
-      return FindClosestWord.find(words, word,
-          letters ?? LanguageLetters.getAllLetters, iterations, hasRelevance);
+      return FindClosestWord.find(words, word, letters ?? LanguageLetters.getAllLetters, iterations, hasRelevance);
     } else {
       return '';
     }
@@ -132,12 +131,15 @@ class SpellCheck {
   }
 
   /// Constructor that will basically transform your list into an hashset
-  static SpellCheck fromWordsList(List<String> wordsList,
-      {List<String>? letters, int iterations = 2}) {
-    Map<String, int> words = {};
+  static SpellCheck fromWordsList(
+    List<String> wordsList, {
+    List<String>? letters,
+    int iterations = 2,
+  }) {
+    final Map<String, int> words = {};
     int value = wordsList.length;
 
-    for (String word in wordsList) {
+    for (final String word in wordsList) {
       words[word] = value;
       value--;
     }
@@ -148,12 +150,15 @@ class SpellCheck {
   }
 
   /// Constructor that receive a file content and generate the words
-  static SpellCheck fromWordsContent(String content,
-      {List<String>? letters, int iterations = 2}) {
-    List<String> words = const LineSplitter().convert(content);
+  static SpellCheck fromWordsContent(
+    String content, {
+    List<String>? letters,
+    int iterations = 2,
+  }) {
+    final List<String> words = const LineSplitter().convert(content);
 
     letters ??= LanguageLetters.getAllLetters;
 
-    return fromWordsList(words, letters: letters, iterations: 2);
+    return fromWordsList(words, letters: letters, iterations: iterations);
   }
 }

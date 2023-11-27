@@ -11,13 +11,13 @@ class WordGeneration {
       return [];
     }
 
-    List<String> deletes = [];
+    final List<String> deletes = [];
 
     for (int i = 0; i < wordMisspelled.length; i++) {
-      String prefix = wordMisspelled.substring(0, i);
-      String suffix = wordMisspelled.substring(i + 1, wordMisspelled.length);
+      final String prefix = wordMisspelled.substring(0, i);
+      final String suffix = wordMisspelled.substring(i + 1, wordMisspelled.length);
 
-      String block = prefix + suffix;
+      final String block = prefix + suffix;
       deletes.add(block);
     }
 
@@ -30,15 +30,13 @@ class WordGeneration {
       return [];
     }
 
-    List<String> swaps = [];
+    final List<String> swaps = [];
 
     for (int i = 0; i < wordMisspelled.length - 1; i++) {
-      String prefix = wordMisspelled.substring(0, max(i, 0));
-      String suffix = wordMisspelled.substring(
-          min(wordMisspelled.length, i + 2), wordMisspelled.length);
+      final String prefix = wordMisspelled.substring(0, max(i, 0));
+      final String suffix = wordMisspelled.substring(min(wordMisspelled.length, i + 2), wordMisspelled.length);
 
-      String newWord =
-          prefix + wordMisspelled[i + 1] + wordMisspelled[i] + suffix;
+      final String newWord = prefix + wordMisspelled[i + 1] + wordMisspelled[i] + suffix;
       swaps.add(newWord);
     }
 
@@ -51,9 +49,9 @@ class WordGeneration {
       return [];
     }
 
-    List<String> inserted = [];
+    final List<String> inserted = [];
     for (int i = 0; i < wordMisspelled.length + 1; i++) {
-      for (String letter in letters) {
+      for (final String letter in letters) {
         String prefix = wordMisspelled;
         String suffix = '';
 
@@ -62,7 +60,7 @@ class WordGeneration {
           suffix = wordMisspelled.substring(i, wordMisspelled.length);
         }
 
-        String possibleMisspell = prefix + letter + suffix;
+        final String possibleMisspell = prefix + letter + suffix;
         inserted.add(possibleMisspell);
       }
     }
@@ -79,31 +77,31 @@ class WordGeneration {
       return [];
     }
 
-    List<String> replaced = [];
+    final List<String> replaced = [];
     for (int i = 0; i < wordMisspelled.length; i++) {
       // If the user don't want to replace vowels
       if (!replaceVowels) {
         // Check if the current char is a vowel
-        String currentChar = wordMisspelled[i];
-        bool isVowel = vowels.contains(currentChar);
+        final String currentChar = wordMisspelled[i];
+        final bool isVowel = vowels.contains(currentChar);
         if (isVowel) {
           continue;
         }
       }
 
       // Do the replace
-      String prefix = wordMisspelled.substring(0, i);
-      String suffix = wordMisspelled.substring(i + 1, wordMisspelled.length);
-      for (String letter in letters) {
+      final String prefix = wordMisspelled.substring(0, i);
+      final String suffix = wordMisspelled.substring(i + 1, wordMisspelled.length);
+      for (final String letter in letters) {
         if (i == 0 && letter == '-') {
           continue;
         }
-        bool isVowel = vowels.contains(letter);
+        final bool isVowel = vowels.contains(letter);
         if (!replaceVowels && isVowel) {
           continue;
         }
 
-        String block = prefix + letter + suffix;
+        final String block = prefix + letter + suffix;
         replaced.add(block);
       }
     }

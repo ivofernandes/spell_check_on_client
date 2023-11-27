@@ -5,20 +5,18 @@ class FindClosestWord {
   /// Find a list of closest words
   static List<String> list(
     Map<String, dynamic> allWords,
-    String word,
+    String wordParam,
     List<String> letters,
     int iterations,
     bool useMapValuesAsRelevance,
     int maxWords,
   ) {
-    word = word.toLowerCase();
-    List<String> bestWords = [];
+    final String word = wordParam.toLowerCase();
+    final List<String> bestWords = [];
 
     // Start by replacing just one consonant
-    List<String> replaceConsonants =
-        WordGeneration.replace(word, letters, replaceVowels: false);
-    final consonants = WordsFilter.pickBestWords(
-        replaceConsonants, allWords, useMapValuesAsRelevance, maxWords);
+    final List<String> replaceConsonants = WordGeneration.replace(word, letters, replaceVowels: false);
+    final consonants = WordsFilter.pickBestWords(replaceConsonants, allWords, useMapValuesAsRelevance, maxWords);
     bestWords.addAll(consonants);
 
     int remainingSpace = maxWords - bestWords.length;
@@ -27,18 +25,14 @@ class FindClosestWord {
     }
 
     // Then iterate over to replace two consonants
-    List<String> replaceConsonantsSecondIteration = [];
+    final List<String> replaceConsonantsSecondIteration = [];
     for (final consonant in replaceConsonants) {
-      List<String> iteration =
-          WordGeneration.replace(consonant, letters, replaceVowels: false);
+      final List<String> iteration = WordGeneration.replace(consonant, letters, replaceVowels: false);
       replaceConsonantsSecondIteration.addAll(iteration);
     }
 
-    final consonantsSecond = WordsFilter.pickBestWords(
-        replaceConsonantsSecondIteration,
-        allWords,
-        useMapValuesAsRelevance,
-        maxWords);
+    final consonantsSecond =
+        WordsFilter.pickBestWords(replaceConsonantsSecondIteration, allWords, useMapValuesAsRelevance, maxWords);
     bestWords.addAll(consonantsSecond);
 
     if (maxWords - bestWords.length <= 0) {
@@ -47,13 +41,13 @@ class FindClosestWord {
 
     // Then move on to delete, insert and swap edits
     // Get the closest blocks from the input word
-    List<List<String>> closeBlocks = edit(word, iterations, 1, letters);
+    final List<List<String>> closeBlocks = edit(word, iterations, 1, letters);
 
     int i = 0;
 
     for (List<String> closeWords in closeBlocks) {
-      List<String> firstIteration = WordsFilter.pickBestWords(
-          closeWords, allWords, useMapValuesAsRelevance, maxWords);
+      final List<String> firstIteration =
+          WordsFilter.pickBestWords(closeWords, allWords, useMapValuesAsRelevance, maxWords);
       bestWords.addAll(firstIteration);
 
       remainingSpace = maxWords - bestWords.length;
@@ -63,9 +57,8 @@ class FindClosestWord {
         // Try the replace this is a last resort mechanism
         // As it can quite easily find words
         // in a next iteration the replace can take in consideration the keyboard configuration
-        List<String> replaces = WordGeneration.replace(word, letters);
-        bestWords.addAll(WordsFilter.pickBestWords(
-            replaces, allWords, useMapValuesAsRelevance, remainingSpace));
+        final List<String> replaces = WordGeneration.replace(word, letters);
+        bestWords.addAll(WordsFilter.pickBestWords(replaces, allWords, useMapValuesAsRelevance, remainingSpace));
 
         if (bestWords.length >= maxWords) {
           break;
@@ -85,8 +78,7 @@ class FindClosestWord {
     int iterations,
     bool useMapValuesAsRelevance,
   ) {
-    final listWords =
-        list(allWords, word, letters, iterations, useMapValuesAsRelevance, 1);
+    final listWords = list(allWords, word, letters, iterations, useMapValuesAsRelevance, 1);
 
     return listWords.isNotEmpty ? listWords[0] : '';
   }
@@ -100,8 +92,8 @@ class FindClosestWord {
     int currentStep,
     List<String> letters,
   ) {
-    List<List<String>> result = [];
-    List<String> list = [];
+    final List<List<String>> result = [];
+    final List<String> list = [];
 
     list.addAll(WordGeneration.delete(word));
     list.addAll(WordGeneration.insert(word, letters));
@@ -112,7 +104,7 @@ class FindClosestWord {
     // If there are more embedded edits, do a recursive call
     if (iterations > currentStep) {
       currentStep++;
-      List<String> newEditsList = [];
+      final List<String> newEditsList = [];
 
       for (String wordInList in list) {
         newEditsList.addAll(WordGeneration.delete(wordInList));

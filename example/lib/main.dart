@@ -36,7 +36,9 @@ class _LanguageSelectionState extends State<LanguageSelection> {
     'Español': 'es',
     'Italiano': 'it',
     'Deutsch': 'de',
-    'Français': 'fr'
+    'Français': 'fr',
+    'Norsk': 'no', // Norwegian
+    'Svenska': 'sv' // Swedish
   };
 
   String language = 'English';
@@ -83,7 +85,10 @@ class _LanguageSelectionState extends State<LanguageSelection> {
 class SpellCheckExample extends StatefulWidget {
   final String language;
 
-  const SpellCheckExample({required this.language, Key? key}) : super(key: key);
+  const SpellCheckExample({
+    required this.language,
+    super.key,
+  });
 
   @override
   State<SpellCheckExample> createState() => _SpellCheckExampleState();
@@ -116,13 +121,10 @@ class _SpellCheckExampleState extends State<SpellCheckExample> {
                   contentPadding: const EdgeInsets.all(10.0),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(
-                          color: Theme.of(context).colorScheme.primary)),
+                      borderSide: BorderSide(color: Theme.of(context).colorScheme.primary)),
                   focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(
-                          color:
-                              Theme.of(context).textTheme.bodyLarge!.color!))),
+                      borderSide: BorderSide(color: Theme.of(context).textTheme.bodyLarge!.color!))),
             ),
             MaterialButton(
                 shape: RoundedRectangleBorder(
@@ -145,7 +147,7 @@ class _SpellCheckExampleState extends State<SpellCheckExample> {
             TextField(
               enabled: false,
               minLines: 10,
-              maxLines: 10,
+              maxLines: 1000,
               controller: logController,
             ),
             MaterialButton(
@@ -164,15 +166,26 @@ class _SpellCheckExampleState extends State<SpellCheckExample> {
 
   void initSpellCheck() async {
     DateTime start = DateTime.now();
-    String content =
-        await rootBundle.loadString('assets/${widget.language}_words.txt');
+    String content = await rootBundle.loadString('assets/${widget.language}_words.txt');
 
-    spellCheck = SpellCheck.fromWordsContent(content,
-        letters: LanguageLetters.getLanguageForLanguage(widget.language));
+    spellCheck = SpellCheck.fromWordsContent(content, letters: LanguageLetters.getLanguageForLanguage(widget.language));
     DateTime parsed = DateTime.now();
 
-    int timeSpent =
-        parsed.millisecondsSinceEpoch - start.millisecondsSinceEpoch;
+    // Update the text controller with the sample text for the selected language
+    final Map<String, String> sampleTexts = {
+      'en': 'This is an exammple sentence in English.',
+      'pt': 'Este é um exemmplo de frase em Português.',
+      'es': 'Esta es una frasse de ejemplo en Español.',
+      'it': 'Questa è una frasse di esempio in Italiano.',
+      'de': 'Dies ist ein Beispielllsatz auf Deutsch.',
+      'fr': 'Ceci est une frase d\'exemple en Français.',
+      'no': 'Dette er en eksemppelsetning på Norsk.',
+      'sv': 'Detta är en exempellmening på Svenska.'
+    };
+
+    controller.text = sampleTexts[widget.language] ?? '';
+
+    int timeSpent = parsed.millisecondsSinceEpoch - start.millisecondsSinceEpoch;
     logController.text += 'Load ${timeSpent}ms\n';
     debugPrint('Time spent');
   }
