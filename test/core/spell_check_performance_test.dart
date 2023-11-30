@@ -17,9 +17,11 @@ void main() {
 
     final DateTime checked = DateTime.now();
 
-    final int timeSpentLoading = loaded.millisecondsSinceEpoch - start.millisecondsSinceEpoch;
+    final int timeSpentLoading =
+        loaded.millisecondsSinceEpoch - start.millisecondsSinceEpoch;
 
-    final int timeSpentChecking = checked.millisecondsSinceEpoch - loaded.millisecondsSinceEpoch;
+    final int timeSpentChecking =
+        checked.millisecondsSinceEpoch - loaded.millisecondsSinceEpoch;
 
     print('didYouMean: $didYouMean');
     assert(didYouMean == 'mammals can have babies');
@@ -42,13 +44,16 @@ void main() {
 
     final DateTime loaded = DateTime.now();
 
-    final String didYouMean = spellCheck.didYouMean('Mamiferos podemm ter bébés');
+    final String didYouMean =
+        spellCheck.didYouMean('Mamiferos podemm ter bébés');
 
     final DateTime checked = DateTime.now();
 
-    final int timeSpentLoading = loaded.millisecondsSinceEpoch - start.millisecondsSinceEpoch;
+    final int timeSpentLoading =
+        loaded.millisecondsSinceEpoch - start.millisecondsSinceEpoch;
 
-    final int timeSpentChecking = checked.millisecondsSinceEpoch - loaded.millisecondsSinceEpoch;
+    final int timeSpentChecking =
+        checked.millisecondsSinceEpoch - loaded.millisecondsSinceEpoch;
 
     print('didYouMean: $didYouMean');
     assert(didYouMean == 'mamíferos podem ter bébés');

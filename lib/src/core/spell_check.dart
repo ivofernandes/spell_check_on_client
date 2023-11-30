@@ -65,9 +65,7 @@ class SpellCheck {
   }
 
   /// Check if the word exists
-  bool isCorrect(String word) {
-    return words.containsKey(word);
-  }
+  bool isCorrect(String word) => words.containsKey(word);
 
   /// Returns empty string if thinks the content is fine
   /// or some text if it thinks you mean something else
@@ -88,7 +86,7 @@ class SpellCheck {
 
     if (corrected) {
       for (int i = 0; i < checkedBlocks.length; i++) {
-        final String separator = ' ';
+        const String separator = ' ';
         if (checkedBlocks[i] == '') {
           didYouMean += blocks[i] + separator;
         } else {
@@ -103,7 +101,8 @@ class SpellCheck {
   /// Check a single word
   String didYouMeanWord(String word) {
     if (words[word.toLowerCase()] == null) {
-      return FindClosestWord.find(words, word, letters ?? LanguageLetters.getAllLetters, iterations, hasRelevance);
+      return FindClosestWord.find(words, word,
+          letters ?? LanguageLetters.getAllLetters, iterations, hasRelevance);
     } else {
       return '';
     }

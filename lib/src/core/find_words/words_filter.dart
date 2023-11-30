@@ -6,7 +6,8 @@ class WordsFilter {
     bool useMapValuesAsRelevance,
     int maxWords,
   ) {
-    final Map<String, int> closeWordsFound = _getRelevanceMap(closeBlocks, words, useMapValuesAsRelevance);
+    final Map<String, int> closeWordsFound =
+        _getRelevanceMap(closeBlocks, words, useMapValuesAsRelevance);
 
     // Reverse the map to get the words with the most relevance
     final Map<int, List<String>> relevanceMap = {};
@@ -52,7 +53,7 @@ class WordsFilter {
       // If the word exists in the dictionary
       if (words.containsKey(block)) {
         if (useMapValuesAsRelevance) {
-          relevance = words[block] as int ?? 0;
+          relevance = words[block] as int;
         }
 
         closeWordsFound[block] = relevance;

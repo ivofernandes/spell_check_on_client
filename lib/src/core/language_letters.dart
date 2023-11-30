@@ -13,7 +13,8 @@ class LanguageLetters {
     'sv': 'abcdefghijklmnopqrstuvwxyzåäö', // Swedish
   };
 
-  static final List<String> _allLetters = letters.values.expand((s) => s.split('')).toSet().toList();
+  static final List<String> _allLetters =
+      letters.values.expand((s) => s.split('')).toSet().toList();
 
   /// Retrieves the list of letters for a given language
   /// Retrieves the list of letters for a specific language, defaulting to English if not found.

@@ -20,19 +20,20 @@ void main() {
     ];
 
     test('Tokenize text with spaces', () {
-      final List<String> tokens = WordTokenizer.tokenize('spaced text for test');
+      final List<String> tokens =
+          WordTokenizer.tokenize('spaced text for test');
       expect(tokens, equals(['spaced', 'text', 'for', 'test']));
     });
 
     test('Tokenize text with standard punctuation', () {
-      final List<String> tokens =
-          WordTokenizer.tokenize('Now! We will do, a more complex test...Will it work? Hope so :)');
+      final List<String> tokens = WordTokenizer.tokenize(
+          'Now! We will do, a more complex test...Will it work? Hope so :)');
       expect(tokens, equals(expectedTokens));
     });
 
     test('Tokenize text with exaggerated punctuation', () {
-      final List<String> tokens =
-          WordTokenizer.tokenize(r'Now! (We) <will> [do], &a #more %complex test...Will: it; work? \Hope+* so :)');
+      final List<String> tokens = WordTokenizer.tokenize(
+          r'Now! (We) <will> [do], &a #more %complex test...Will: it; work? \Hope+* so :)');
       expect(tokens, equals(expectedTokens));
     });
   });

@@ -15,7 +15,8 @@ class WordGeneration {
 
     for (int i = 0; i < wordMisspelled.length; i++) {
       final String prefix = wordMisspelled.substring(0, i);
-      final String suffix = wordMisspelled.substring(i + 1, wordMisspelled.length);
+      final String suffix =
+          wordMisspelled.substring(i + 1, wordMisspelled.length);
 
       final String block = prefix + suffix;
       deletes.add(block);
@@ -34,9 +35,11 @@ class WordGeneration {
 
     for (int i = 0; i < wordMisspelled.length - 1; i++) {
       final String prefix = wordMisspelled.substring(0, max(i, 0));
-      final String suffix = wordMisspelled.substring(min(wordMisspelled.length, i + 2), wordMisspelled.length);
+      final String suffix = wordMisspelled.substring(
+          min(wordMisspelled.length, i + 2), wordMisspelled.length);
 
-      final String newWord = prefix + wordMisspelled[i + 1] + wordMisspelled[i] + suffix;
+      final String newWord =
+          prefix + wordMisspelled[i + 1] + wordMisspelled[i] + suffix;
       swaps.add(newWord);
     }
 
@@ -91,7 +94,8 @@ class WordGeneration {
 
       // Do the replace
       final String prefix = wordMisspelled.substring(0, i);
-      final String suffix = wordMisspelled.substring(i + 1, wordMisspelled.length);
+      final String suffix =
+          wordMisspelled.substring(i + 1, wordMisspelled.length);
       for (final String letter in letters) {
         if (i == 0 && letter == '-') {
           continue;

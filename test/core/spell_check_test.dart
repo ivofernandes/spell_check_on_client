@@ -11,7 +11,8 @@ void main() {
     });
 
     test('Find unknown words in a phrase', () {
-      final List<String> unknownWords = spellCheck.unKnownWords('a cat and bat');
+      final List<String> unknownWords =
+          spellCheck.unKnownWords('a cat and bat');
       expect(unknownWords, equals(['a', 'and']));
     });
 
@@ -27,7 +28,8 @@ void main() {
 
     test('Correct a word with a replaced letter', () {
       // Re-initialize with a different iteration setting for this specific test
-      spellCheck = SpellCheck.fromWordsList(['cat', 'bat', 'hat'], iterations: 1);
+      spellCheck =
+          SpellCheck.fromWordsList(['cat', 'bat', 'hat'], iterations: 1);
 
       final String correction = spellCheck.didYouMean('bar');
       expect(correction, equals('bat'));

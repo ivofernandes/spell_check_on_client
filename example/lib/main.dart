@@ -7,23 +7,21 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Spell check',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const LanguageSelection(),
-    );
-  }
+  Widget build(BuildContext context) => MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Spell check',
+        theme: ThemeData(),
+        home: const LanguageSelection(),
+      );
 }
 
 class LanguageSelection extends StatefulWidget {
-  const LanguageSelection({Key? key}) : super(key: key);
+  const LanguageSelection({
+    super.key,
+  });
 
   @override
   State<LanguageSelection> createState() => _LanguageSelectionState();
@@ -44,42 +42,38 @@ class _LanguageSelectionState extends State<LanguageSelection> {
   String language = 'English';
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('Spell check'),
-          actions: [
-            DropdownButton<String>(
-              dropdownColor: Theme.of(context).primaryColor,
-              icon: Icon(
-                Icons.arrow_drop_down,
-                color: Theme.of(context).canvasColor,
-              ),
-              value: language,
-              items: languages.keys.map((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(
-                    value,
-                    style: TextStyle(color: Theme.of(context).canvasColor),
-                  ),
-                );
-              }).toList(),
-              onChanged: (String? language) {
-                this.language = language!;
-                setState(() {});
-              },
-            ),
-            const SizedBox(
-              width: 10,
-            )
-          ],
-        ),
-        body: SpellCheckExample(
-          language: languages[language]!,
-          key: UniqueKey(),
-        ));
-  }
+  Widget build(BuildContext context) => Scaffold(
+      appBar: AppBar(
+        title: const Text('Spell check'),
+        actions: [
+          DropdownButton<String>(
+            value: language,
+            icon: const Icon(Icons.arrow_drop_down),
+            underline: Container(height: 0, color: Colors.transparent),
+            onChanged: (String? newValue) {
+              if (newValue != null) {
+                setState(() {
+                  language = newValue;
+                });
+              }
+            },
+            items: languages.keys
+                .map<DropdownMenuItem<String>>(
+                    (String language) => DropdownMenuItem<String>(
+                          value: language,
+                          child: Text(language),
+                        ))
+                .toList(),
+          ),
+          const SizedBox(
+            width: 10,
+          )
+        ],
+      ),
+      body: SpellCheckExample(
+        language: languages[language]!,
+        key: UniqueKey(),
+      ));
 }
 
 class SpellCheckExample extends StatefulWidget {
@@ -107,69 +101,75 @@ class _SpellCheckExampleState extends State<SpellCheckExample> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
-        margin: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-            TextFormField(
-              maxLines: 4,
-              controller: controller,
-              decoration: InputDecoration(
-                  focusColor: Theme.of(context).textTheme.bodyLarge!.color,
-                  contentPadding: const EdgeInsets.all(10.0),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(color: Theme.of(context).colorScheme.primary)),
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(color: Theme.of(context).textTheme.bodyLarge!.color!))),
-            ),
-            MaterialButton(
+  Widget build(BuildContext context) => SingleChildScrollView(
+        child: Container(
+          margin: const EdgeInsets.all(10),
+          child: Column(
+            children: [
+              TextFormField(
+                maxLines: 4,
+                controller: controller,
+                decoration: InputDecoration(
+                    focusColor: Theme.of(context).textTheme.bodyLarge!.color,
+                    contentPadding: const EdgeInsets.all(10.0),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(
+                            color: Theme.of(context).colorScheme.primary)),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(
+                            color: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .color!))),
+              ),
+              MaterialButton(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 elevation: 10,
                 color: Theme.of(context).colorScheme.primary,
                 child: const Text('Spell check'),
-                onPressed: () => spellCheckValidate()),
-            didYouMean == ''
-                ? const SizedBox()
-                : Column(
-                    children: [
-                      Text('Did you mean $didYouMean?'),
-                    ],
+                onPressed: () => spellCheckValidate(),
+              ),
+              didYouMean == ''
+                  ? const SizedBox()
+                  : Column(
+                      children: [
+                        Text('Did you mean $didYouMean?'),
+                      ],
+                    ),
+              const SizedBox(
+                height: 20,
+              ),
+              TextField(
+                enabled: false,
+                minLines: 10,
+                maxLines: 1000,
+                controller: logController,
+              ),
+              MaterialButton(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
                   ),
-            const SizedBox(
-              height: 20,
-            ),
-            TextField(
-              enabled: false,
-              minLines: 10,
-              maxLines: 1000,
-              controller: logController,
-            ),
-            MaterialButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                elevation: 10,
-                color: Theme.of(context).colorScheme.primary,
-                child: const Text('Clear logs'),
-                onPressed: () => clearLogs())
-          ],
+                  elevation: 10,
+                  color: Theme.of(context).colorScheme.primary,
+                  child: const Text('Clear logs'),
+                  onPressed: () => clearLogs())
+            ],
+          ),
         ),
-      ),
-    );
-  }
+      );
 
   void initSpellCheck() async {
-    DateTime start = DateTime.now();
-    String content = await rootBundle.loadString('assets/${widget.language}_words.txt');
+    final DateTime start = DateTime.now();
+    final String content =
+        await rootBundle.loadString('assets/${widget.language}_words.txt');
 
-    spellCheck = SpellCheck.fromWordsContent(content, letters: LanguageLetters.getLanguageForLanguage(widget.language));
-    DateTime parsed = DateTime.now();
+    spellCheck = SpellCheck.fromWordsContent(content,
+        letters: LanguageLetters.getLanguageForLanguage(widget.language));
+    final DateTime parsed = DateTime.now();
 
     // Update the text controller with the sample text for the selected language
     final Map<String, String> sampleTexts = {
@@ -185,18 +185,20 @@ class _SpellCheckExampleState extends State<SpellCheckExample> {
 
     controller.text = sampleTexts[widget.language] ?? '';
 
-    int timeSpent = parsed.millisecondsSinceEpoch - start.millisecondsSinceEpoch;
+    final int timeSpent =
+        parsed.millisecondsSinceEpoch - start.millisecondsSinceEpoch;
     logController.text += 'Load ${timeSpent}ms\n';
     debugPrint('Time spent');
   }
 
   void spellCheckValidate() {
-    DateTime start = DateTime.now();
-    String text = controller.text;
+    final DateTime start = DateTime.now();
+    final String text = controller.text;
     didYouMean = spellCheck.didYouMean(text);
-    DateTime end = DateTime.now();
+    final DateTime end = DateTime.now();
 
-    int timeSpent = end.millisecondsSinceEpoch - start.millisecondsSinceEpoch;
+    final int timeSpent =
+        end.millisecondsSinceEpoch - start.millisecondsSinceEpoch;
     logController.text += 'Checked ${timeSpent}ms\n';
     setState(() {});
   }
