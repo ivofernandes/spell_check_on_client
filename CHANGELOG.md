@@ -18,3 +18,6 @@ Dropped flutter dependency
 
 ## 0.0.7
 Improved documentation
+
+## 0.0.8
+Improved documentation

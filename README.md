@@ -1,7 +1,12 @@
-# Context
-Spell check is something that tends to be done in server side, but it actually don't need to be like that.
+[![pub package](https://img.shields.io/pub/v/spell_check_on_client.svg?label=spell_check_on_client&color=blue)](https://pub.dev/packages/spell_check_on_client)
+[![popularity](https://img.shields.io/pub/popularity/spell_check_on_client?logo=dart)](https://pub.dev/packages/spell_check_on_client/score)
+[![likes](https://img.shields.io/pub/likes/spell_check_on_client?logo=dart)](https://pub.dev/packages/spell_check_on_client/score)
+[![pub points](https://img.shields.io/pub/points/sentry?logo=dart)](https://pub.dev/packages/spell_check_on_client/score)
 
-With an extra 1.5Mb of words in a text file you will be able to deliver a spell check with below 200ms response time and save cloud costs.
+# Context
+Traditionally, spell checking is performed server-side; however, this isn't a necessity. The spell_check_on_client package brings efficient, offline spell checking directly to the client side, saving on cloud costs and providing rapid response times.
+
+By embedding a compact 1.5MB dictionary text file, your application can perform spell checks in under 200ms, reducing latency and preserving data privacy.
 
 ![Spell check](https://raw.githubusercontent.com/ivofernandes/spell_check_on_client/master/doc/screenshot.png?raw=true)
 
@@ -14,17 +19,17 @@ This package uses an hashset comparison algorithm to deliver a spell check that 
 - Find words in your text that are not in the dictionary
 - apply operations to find what are the possible words similar enough that belong to the dictionary
 - operations supported to find words: addition, deletion, swap, replace
-# Future features
 
 ## Getting started
 
 In this video I show how to run the example app of this package:
+
 https://www.youtube.com/watch?v=YbMR9CEbvCE
 
 Add the dependency to your `pubspec.yaml`:
 
 ```
-spell_check_on_client: ^0.0.7
+spell_check_on_client: ^0.0.8
 ```
 
 ## Usage
