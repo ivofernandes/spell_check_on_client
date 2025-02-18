@@ -21,3 +21,6 @@ Improved documentation
 
 ## 0.0.8
 Improved documentation
+
+## 0.0.9
+Fix analysis

@@ -21,9 +21,10 @@ class SpellCheck {
   /// to don't use the map values to sort words by relevance
   final Map<String, dynamic> words;
 
-  /// Use map values as relevance that is only useful if the map is not a Map<String, int> from word text to it's relevance
+  /// Uses map values as relevance. This is only useful if the map is not a `Map<String, int>`,
+  /// where the key is the word text and the value represents its relevance.
   /// If it's null will use the default value depending on the type of the map,
-  /// if the map is a Map<String, int> will use true, otherwise will use false
+  /// If the map is a `Map<String, int>`, it will use `true`; otherwise, it will use `false`.
   final bool? useMapValuesAsRelevance;
 
   /// The letters that are allowed in the language

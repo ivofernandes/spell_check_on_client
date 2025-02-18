@@ -1,5 +1,4 @@
 [![pub package](https://img.shields.io/pub/v/spell_check_on_client.svg?label=spell_check_on_client&color=blue)](https://pub.dev/packages/spell_check_on_client)
-[![popularity](https://img.shields.io/pub/popularity/spell_check_on_client?logo=dart)](https://pub.dev/packages/spell_check_on_client/score)
 [![likes](https://img.shields.io/pub/likes/spell_check_on_client?logo=dart)](https://pub.dev/packages/spell_check_on_client/score)
 [![pub points](https://img.shields.io/pub/points/sentry?logo=dart)](https://pub.dev/packages/spell_check_on_client/score)
 
