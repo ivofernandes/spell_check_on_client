@@ -36,7 +36,11 @@ class _LanguageSelectionState extends State<LanguageSelection> {
     'Deutsch': 'de',
     'Français': 'fr',
     'Norsk': 'no', // Norwegian
-    'Svenska': 'sv' // Swedish
+    'Svenska': 'sv', // Swedish
+    'Amharic': 'am',
+    'Arabic': 'ar',
+    'Chinese': 'zh',
+    'Japanese': 'ja'
   };
 
   String language = 'English';
@@ -89,6 +93,7 @@ class SpellCheckExample extends StatefulWidget {
 }
 
 class _SpellCheckExampleState extends State<SpellCheckExample> {
+  final TextEditingController suggestionController = TextEditingController();
   String didYouMean = '';
   SpellCheck spellCheck = SpellCheck.fromWordsList(['cat', 'bat', 'hat']);
   TextEditingController controller = TextEditingController();
@@ -137,7 +142,7 @@ class _SpellCheckExampleState extends State<SpellCheckExample> {
                   ? const SizedBox()
                   : Column(
                       children: [
-                        Text('Did you mean $didYouMean?'),
+                        SelectableText('Did you mean $didYouMean?'),
                       ],
                     ),
               const SizedBox(
@@ -173,14 +178,18 @@ class _SpellCheckExampleState extends State<SpellCheckExample> {
 
     // Update the text controller with the sample text for the selected language
     final Map<String, String> sampleTexts = {
-      'en': 'This is an exammple sentence in English.',
+      'en': 'This is an example sentence in English.',
       'pt': 'Este é um exemmplo de frase em Português.',
       'es': 'Esta es una frasse de ejemplo en Español.',
       'it': 'Questa è una frasse di esempio in Italiano.',
       'de': 'Dies ist ein Beispielllsatz auf Deutsch.',
       'fr': 'Ceci est une frase d\'exemple en Français.',
       'no': 'Dette er en eksemppelsetning på Norsk.',
-      'sv': 'Detta är en exempellmening på Svenska.'
+      'sv': 'Detta är en exempellmening på Svenska.',
+      'am': 'ይህ በአማርኛ የተጻፈ ምሳሌ ዐረፍተ ነገር ነው።', 
+      'ar': 'هذه جملة مثال باللغة العربية.', 
+      'zh': '这是一个中文示例句子。', 
+      'ja': 'これは日本語の例文です。' 
     };
 
     controller.text = sampleTexts[widget.language] ?? '';
@@ -195,6 +204,7 @@ class _SpellCheckExampleState extends State<SpellCheckExample> {
     final DateTime start = DateTime.now();
     final String text = controller.text;
     didYouMean = spellCheck.didYouMean(text);
+    suggestionController.text = 'Did you mean: $didYouMean';
     final DateTime end = DateTime.now();
 
     final int timeSpent =
