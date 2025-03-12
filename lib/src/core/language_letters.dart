@@ -11,39 +11,36 @@ class LanguageLetters {
     'no': 'abcdefghijklmnopqrstuvwxyzæøå', // Norwegian
     'pt': 'abcdefghijklmnopqrstuvwxyzáâãàçéêíóôõú', // Portuguese
     'sv': 'abcdefghijklmnopqrstuvwxyzåäö', // Swedish
+    // New languages:
+    'am': 'ሀለሐመሠረቀበተኀነዐዘዠገጠጨፈፐ', // Amharic (sample set)
+    'ar': 'ابتثجحخدذرزسشصضطظعغفقكلمنهوي', // Arabic
+    'zh': '的一是在不了有和', // Chinese (sample common characters)
+    'ja': 'あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん', // Japanese (hiragana)
   };
 
   static final List<String> _allLetters =
-      letters.values.expand((s) => s.split('')).toSet().toList();
+  letters.values.expand((s) => s.split('')).toSet().toList();
 
-  /// Retrieves the list of letters for a given language
-  /// Retrieves the list of letters for a specific language, defaulting to English if not found.
+  /// Retrieves the list of letters for a given language.
+  /// Defaults to English if the language is not found.
   static List<String> getLanguageForLanguage(String language) =>
       letters[language]?.split('') ?? letters['en']!.split('');
 
-  /// Returns a list of German letters.
+  /// Returns a list of letters for each language.
   static List<String> germanLetters() => letters['de']!.split('');
-
-  /// Returns a list of English letters.
   static List<String> englishLetters() => letters['en']!.split('');
-
-  /// Returns a list of Spanish letters.
   static List<String> spanishLetters() => letters['es']!.split('');
-
-  /// Returns a list of French letters.
   static List<String> frenchLetters() => letters['fr']!.split('');
-
-  /// Returns a list of Italian letters.
   static List<String> italianLetters() => letters['it']!.split('');
-
-  /// Returns a list of Norwegian letters.
   static List<String> norwegianLetters() => letters['no']!.split('');
-
-  /// Returns a list of Portuguese letters.
   static List<String> portugueseLetters() => letters['pt']!.split('');
-
-  /// Returns a list of Swedish letters.
   static List<String> swedishLetters() => letters['sv']!.split('');
+
+  // New helper methods for the additional languages:
+  static List<String> amharicLetters() => letters['am']!.split('');
+  static List<String> arabicLetters() => letters['ar']!.split('');
+  static List<String> chineseLetters() => letters['zh']!.split('');
+  static List<String> japaneseLetters() => letters['ja']!.split('');
 
   /// Retrieves all letters from the supported languages combined.
   static List<String> get getAllLetters => _allLetters;

@@ -178,7 +178,7 @@ class _SpellCheckExampleState extends State<SpellCheckExample> {
 
     // Update the text controller with the sample text for the selected language
     final Map<String, String> sampleTexts = {
-      'en': 'This is an example sentence in English.',
+      'en': 'This is an exammple senttence in English.',
       'pt': 'Este é um exemmplo de frase em Português.',
       'es': 'Esta es una frasse de ejemplo en Español.',
       'it': 'Questa è una frasse di esempio in Italiano.',
