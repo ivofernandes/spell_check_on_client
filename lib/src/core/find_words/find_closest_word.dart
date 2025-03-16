@@ -1,4 +1,5 @@
 import 'package:spell_check_on_client/src/core/find_words/word_generation.dart';
+import 'package:spell_check_on_client/src/core/find_words/word_generation_replace.dart';
 import 'package:spell_check_on_client/src/core/find_words/words_filter.dart';
 
 class FindClosestWord {
@@ -16,7 +17,7 @@ class FindClosestWord {
 
     // Start by replacing just one consonant
     final List<String> replaceConsonants =
-        WordGeneration.replace(word, letters, replaceVowels: false);
+    WordGenerationReplace.replace(word, letters, replaceVowels: false);
     final consonants = WordsFilter.pickBestWords(
         replaceConsonants, allWords, useMapValuesAsRelevance, maxWords);
     bestWords.addAll(consonants);
@@ -30,7 +31,7 @@ class FindClosestWord {
     final List<String> replaceConsonantsSecondIteration = [];
     for (final consonant in replaceConsonants) {
       final List<String> iteration =
-          WordGeneration.replace(consonant, letters, replaceVowels: false);
+      WordGenerationReplace.replace(consonant, letters, replaceVowels: false);
       replaceConsonantsSecondIteration.addAll(iteration);
     }
 
@@ -63,7 +64,7 @@ class FindClosestWord {
         // Try the replace this is a last resort mechanism
         // As it can quite easily find words
         // in a next iteration the replace can take in consideration the keyboard configuration
-        final List<String> replaces = WordGeneration.replace(word, letters);
+        final List<String> replaces = WordGenerationReplace.replace(word, letters);
         bestWords.addAll(WordsFilter.pickBestWords(
             replaces, allWords, useMapValuesAsRelevance, remainingSpace));
 

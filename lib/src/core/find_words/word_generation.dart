@@ -3,8 +3,6 @@ import 'dart:math';
 /// Generate possible words from a misspelled word using the following operations
 /// delete, swap, insert, replace
 class WordGeneration {
-  static const String vowels = 'aeiouáéíóúàèìòùâêîôûäöüãõyåøæı';
-
   /// Find possible words if the user missed a letter
   static List<String> delete(String wordMisspelled) {
     if (wordMisspelled.length <= 1) {
@@ -68,48 +66,5 @@ class WordGeneration {
       }
     }
     return inserted;
-  }
-
-  /// Find possible words if user replaced some char
-  static List<String> replace(
-    String wordMisspelled,
-    List<String> letters, {
-    bool replaceVowels = true,
-  }) {
-    if (wordMisspelled.length <= 1) {
-      return [];
-    }
-
-    final List<String> replaced = [];
-    for (int i = 0; i < wordMisspelled.length; i++) {
-      // If the user don't want to replace vowels
-      if (!replaceVowels) {
-        // Check if the current char is a vowel
-        final String currentChar = wordMisspelled[i];
-        final bool isVowel = vowels.contains(currentChar);
-        if (isVowel) {
-          continue;
-        }
-      }
-
-      // Do the replace
-      final String prefix = wordMisspelled.substring(0, i);
-      final String suffix =
-          wordMisspelled.substring(i + 1, wordMisspelled.length);
-      for (final String letter in letters) {
-        if (i == 0 && letter == '-') {
-          continue;
-        }
-        final bool isVowel = vowels.contains(letter);
-        if (!replaceVowels && isVowel) {
-          continue;
-        }
-
-        final String block = prefix + letter + suffix;
-        replaced.add(block);
-      }
-    }
-
-    return replaced;
   }
 }

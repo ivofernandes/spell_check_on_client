@@ -105,7 +105,7 @@ class SpellCheck {
       return FindClosestWord.find(words, word,
           letters ?? LanguageLetters.getAllLetters, iterations, hasRelevance);
     } else {
-      return '';
+      return word;
     }
   }
 
