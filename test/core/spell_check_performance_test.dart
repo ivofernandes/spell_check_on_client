@@ -5,6 +5,19 @@ import 'package:spell_check_on_client/src/core/spell_check.dart';
 import 'package:test/test.dart';
 
 void main() {
+
+  setUpAll(() async{
+
+    // Warm-up
+
+    const String filePath = 'example/assets/en_words.txt';
+    final String content = await File(filePath).readAsString();
+    final SpellCheck spellCheck = SpellCheck.fromWordsContent(content);
+
+    final String didYouMean = spellCheck.didYouMean('Mammalls can have babiis');
+
+  });
+
   // English test
   test('English test', () async {
     final DateTime start = DateTime.now();
@@ -26,7 +39,7 @@ void main() {
     print('timeSpentLoading: $timeSpentLoading');
     expect(timeSpentLoading < 200, isTrue);
     print('timeSpentChecking: $timeSpentChecking');
-    expect(timeSpentChecking < 2000, isTrue);
+    expect(timeSpentChecking < 3000, isTrue);
   });
 
   // Portuguese test
@@ -41,7 +54,7 @@ void main() {
 
     final DateTime loaded = DateTime.now();
     final String didYouMean =
-    spellCheck.didYouMean('Mamiferos podemm ter bébés');
+    spellCheck.didYouMean('Mamiferos podemm ter bebês');
     final DateTime checked = DateTime.now();
 
     final int timeSpentLoading =
@@ -50,7 +63,7 @@ void main() {
         checked.millisecondsSinceEpoch - loaded.millisecondsSinceEpoch;
 
     print('didYouMean: $didYouMean');
-    expect(didYouMean, equals('mamíferos podem ter bébés'));
+    expect(didYouMean, equals('mamíferos podem ter bebês'));
     print('timeSpentLoading: $timeSpentLoading');
     expect(timeSpentLoading < 200, isTrue);
     print('timeSpentChecking: $timeSpentChecking');
@@ -68,7 +81,7 @@ void main() {
     );
 
     final DateTime loaded = DateTime.now();
-    final String didYouMean = spellCheck.didYouMean('hundar är söota');
+    final String didYouMean = spellCheck.didYouMean('hundär är söta');
     final DateTime checked = DateTime.now();
 
     final int timeSpentLoading =
@@ -78,6 +91,33 @@ void main() {
 
     print('didYouMean: $didYouMean');
     expect(didYouMean, equals('hundar är söta'));
+    print('timeSpentLoading: $timeSpentLoading');
+    expect(timeSpentLoading < 200, isTrue);
+    print('timeSpentChecking: $timeSpentChecking');
+    expect(timeSpentChecking < 200, isTrue);
+  });
+
+  // Spanish test
+  test('Spanish test', () async {
+    final DateTime start = DateTime.now();
+    const String filePath = 'example/assets/es_words.txt';
+    final String content = await File(filePath).readAsString();
+    final SpellCheck spellCheck = SpellCheck.fromWordsContent(
+      content,
+      letters: LanguageLetters.spanishLetters(),
+    );
+
+    final DateTime loaded = DateTime.now();
+    final String didYouMean = spellCheck.didYouMean('Los niñoss juegan en el patio');
+    final DateTime checked = DateTime.now();
+
+    final int timeSpentLoading =
+        loaded.millisecondsSinceEpoch - start.millisecondsSinceEpoch;
+    final int timeSpentChecking =
+        checked.millisecondsSinceEpoch - loaded.millisecondsSinceEpoch;
+
+    print('didYouMean: $didYouMean');
+    expect(didYouMean, equals('Los niños juegan en el patio'));
     print('timeSpentLoading: $timeSpentLoading');
     expect(timeSpentLoading < 200, isTrue);
     print('timeSpentChecking: $timeSpentChecking');

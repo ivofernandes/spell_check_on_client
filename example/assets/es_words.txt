@@ -89,6 +89,8 @@ superficie
 independencia
 valladolid
 sencillo
+niño
+niños
 japonés
 cantón
 renacimiento
@@ -41955,7 +41957,6 @@ patéticamente
 patético
 patí
 patín
-patío
 patón
 paují
 paulatinamente
@@ -92936,7 +92937,6 @@ paturros
 patéticamentes
 patéticos
 patíbulos
-patíos
 patólogos
 paulatinamentes
 paulatinos
@@ -105054,6 +105054,7 @@ patizambos
 patituertos
 patitos
 patios
+patio
 patitiesos
 patinillos
 patinetes
