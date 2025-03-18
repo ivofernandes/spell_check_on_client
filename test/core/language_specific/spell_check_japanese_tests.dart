@@ -2,9 +2,8 @@ import 'package:spell_check_on_client/src/core/spell_check.dart';
 import 'package:test/test.dart';
 
 void main() {
-
   test('Simple Japanese test', () {
-    SpellCheck spellCheck = SpellCheck.fromWordsList(
+    final SpellCheck spellCheck = SpellCheck.fromWordsList(
       ['こんにちは', '平和', 'ハレルヤ'], // ['Hello', 'Peace', 'Hallelujah']
       letters: 'こにちは平和ハレルヤ'.split(''), // Japanese characters
     );
@@ -14,7 +13,8 @@ void main() {
     expect(didYouMean, '平和'); // 'Peace'
 
     // Test for a close match
-    didYouMean = spellCheck.didYouMeanWord('平和平'); // 'Peace' with an extra character
+    didYouMean =
+        spellCheck.didYouMeanWord('平和平'); // 'Peace' with an extra character
     expect(didYouMean, '平和'); // 'Peace'
 
     // Test for a completely different word

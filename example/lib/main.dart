@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) => MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Spell check',
-        theme: ThemeData(),
+        theme: ThemeData.dark(),
         home: const LanguageSelection(),
       );
 }
@@ -116,7 +116,7 @@ class _SpellCheckExampleState extends State<SpellCheckExample> {
                 controller: controller,
                 decoration: InputDecoration(
                     focusColor: Theme.of(context).textTheme.bodyLarge!.color,
-                    contentPadding: const EdgeInsets.all(10.0),
+                    contentPadding: const EdgeInsets.all(10),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide(
@@ -131,12 +131,12 @@ class _SpellCheckExampleState extends State<SpellCheckExample> {
               ),
               MaterialButton(
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 elevation: 10,
                 color: Theme.of(context).colorScheme.primary,
+                onPressed: spellCheckValidate,
                 child: const Text('Spell check'),
-                onPressed: () => spellCheckValidate(),
               ),
               didYouMean == ''
                   ? const SizedBox()
@@ -156,18 +156,18 @@ class _SpellCheckExampleState extends State<SpellCheckExample> {
               ),
               MaterialButton(
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                   elevation: 10,
                   color: Theme.of(context).colorScheme.primary,
-                  child: const Text('Clear logs'),
-                  onPressed: () => clearLogs())
+                  onPressed: clearLogs,
+                  child: const Text('Clear logs'))
             ],
           ),
         ),
       );
 
-  void initSpellCheck() async {
+  Future<void> initSpellCheck() async {
     final DateTime start = DateTime.now();
     final String content =
         await rootBundle.loadString('assets/${widget.language}_words.txt');
@@ -183,13 +183,13 @@ class _SpellCheckExampleState extends State<SpellCheckExample> {
       'es': 'Esta es una frasse de ejemplo en Español.',
       'it': 'Questa è una frasse di esempio in Italiano.',
       'de': 'Dies ist ein Beispielllsatz auf Deutsch.',
-      'fr': 'Ceci est une frase d\'exemple en Français.',
+      'fr': "Ceci est une frase d'exemple en Français.",
       'no': 'Dette er en eksemppelsetning på Norsk.',
       'sv': 'Detta är en exempellmening på Svenska.',
-      'am': 'ይህ በአማርኛ የተጻፈ ምሳሌ ዐረፍተ ነገር ነው።', 
-      'ar': 'هذه جملة مثال باللغة العربية.', 
-      'zh': '这是一个中文示例句子。', 
-      'ja': 'これは日本語の例文です。' 
+      'am': 'ይህ በአማርኛ የተጻፈ ምሳሌ ዐረፍተ ነገር ነው።',
+      'ar': 'هذه جملة مثال باللغة العربية.',
+      'zh': '这是一个中文示例句子。',
+      'ja': 'これは日本語の例文です。'
     };
 
     controller.text = sampleTexts[widget.language] ?? '';

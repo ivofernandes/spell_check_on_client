@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:io';
 
 import 'package:spell_check_on_client/src/core/language_letters.dart';
@@ -5,17 +7,12 @@ import 'package:spell_check_on_client/src/core/spell_check.dart';
 import 'package:test/test.dart';
 
 void main() {
-
-  setUpAll(() async{
-
-    // Warm-up
-
+  setUpAll(() async {
+    // Warm-up rep
     const String filePath = 'example/assets/en_words.txt';
     final String content = await File(filePath).readAsString();
     final SpellCheck spellCheck = SpellCheck.fromWordsContent(content);
-
-    final String didYouMean = spellCheck.didYouMean('Mammalls can have babiis');
-
+    spellCheck.didYouMean('Mammalls can have babiis');
   });
 
   // English test
@@ -54,7 +51,7 @@ void main() {
 
     final DateTime loaded = DateTime.now();
     final String didYouMean =
-    spellCheck.didYouMean('Mamiferos podemm ter bebês');
+        spellCheck.didYouMean('Mamiferos podemm ter bebês');
     final DateTime checked = DateTime.now();
 
     final int timeSpentLoading =
@@ -108,7 +105,8 @@ void main() {
     );
 
     final DateTime loaded = DateTime.now();
-    final String didYouMean = spellCheck.didYouMean('Los niñoss juegan en el patio');
+    final String didYouMean =
+        spellCheck.didYouMean('Los niñoss juegan en el patio');
     final DateTime checked = DateTime.now();
 
     final int timeSpentLoading =
@@ -123,5 +121,4 @@ void main() {
     print('timeSpentChecking: $timeSpentChecking');
     expect(timeSpentChecking < 200, isTrue);
   });
-
 }

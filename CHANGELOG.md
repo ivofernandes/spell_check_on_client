@@ -24,3 +24,6 @@ Improved documentation
 
 ## 0.0.9
 Fix analysis
+
+## 1.0.0
+Replace first punctuation vowels

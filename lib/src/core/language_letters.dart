@@ -15,11 +15,12 @@ class LanguageLetters {
     'am': 'ሀለሐመሠረቀበተኀነዐዘዠገጠጨፈፐ', // Amharic (sample set)
     'ar': 'ابتثجحخدذرزسشصضطظعغفقكلمنهوي', // Arabic
     'zh': '的一是在不了有和', // Chinese (sample common characters)
-    'ja': 'あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん', // Japanese (hiragana)
+    'ja':
+        'あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん', // Japanese (hiragana)
   };
 
   static final List<String> _allLetters =
-  letters.values.expand((s) => s.split('')).toSet().toList();
+      letters.values.expand((s) => s.split('')).toSet().toList();
 
   /// Retrieves the list of letters for a given language.
   /// Defaults to English if the language is not found.

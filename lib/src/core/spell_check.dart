@@ -131,7 +131,7 @@ class SpellCheck {
   }
 
   /// Constructor that will basically transform your list into an hashset
-  static SpellCheck fromWordsList(
+  factory SpellCheck.fromWordsList(
     List<String> wordsList, {
     List<String>? letters,
     int iterations = 2,
@@ -150,7 +150,7 @@ class SpellCheck {
   }
 
   /// Constructor that receive a file content and generate the words
-  static SpellCheck fromWordsContent(
+  factory SpellCheck.fromWordsContent(
     String content, {
     List<String>? letters,
     int iterations = 2,
@@ -159,6 +159,7 @@ class SpellCheck {
 
     letters ??= LanguageLetters.getAllLetters;
 
-    return fromWordsList(words, letters: letters, iterations: iterations);
+    return SpellCheck.fromWordsList(words,
+        letters: letters, iterations: iterations);
   }
 }

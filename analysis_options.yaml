@@ -20,7 +20,6 @@ linter:
     always_declare_return_types: true
     always_put_control_body_on_new_line: true
     always_put_required_named_parameters_first: true
-    always_require_non_null_named_parameters: true
     always_use_package_imports: true
     annotate_overrides: true
     avoid_bool_literals_in_conditional_expressions: true
@@ -40,8 +39,6 @@ linter:
     avoid_relative_lib_imports: true
     avoid_renaming_method_parameters: true
     avoid_return_types_on_setters: true
-    avoid_returning_null: true
-    avoid_returning_null_for_future: true
     avoid_returning_null_for_void: true
     avoid_returning_this: true
     avoid_shadowing_type_parameters: true
@@ -83,7 +80,6 @@ linter:
     omit_local_variable_types: false
     only_throw_errors: true
     overridden_fields: true
-    package_api_docs: true
     package_names: true
     package_prefixed_library_names: true
     parameter_assignments: true
@@ -215,7 +211,6 @@ linter:
     tighten_type_of_initializing_formals: false
     unnecessary_final: false
     unnecessary_null_checks: false
-    unsafe_html: false
     use_is_even_rather_than_modulo: false
     use_key_in_widget_constructors: false
     prefer_null_aware_method_calls: false

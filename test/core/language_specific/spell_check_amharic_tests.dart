@@ -2,11 +2,12 @@ import 'package:spell_check_on_client/src/core/spell_check.dart';
 import 'package:test/test.dart';
 
 void main() {
-
   test('Simple Amharic test', () {
-    SpellCheck spellCheck = SpellCheck.fromWordsList(
+    final SpellCheck spellCheck = SpellCheck.fromWordsList(
       ['እንቋዕ', 'ሰላም', 'ሀሌሉያ'], // ['Hello', 'Peace', 'Hallelujah']
-      letters: 'አኡኢኣኤእኦኧከኩኪካኬክኮኳኸኹኺኻኼኽኾወዉዊዋዌውዎዐዑዒዓዔዕዖቀቁቂቃቄቅቆቋቌቍቐቑቒቓቔቕቖቘ቙ቚቛቜቝ቞በቡቢባቤብቦቧቨቩቪቫቬቭቮቯተቱቲታቴትቶቷቸቹቺቻቼችቾኀኁኂኃኄኅኆኋኌኍነኑኒናኔንኖኗኘኙኚኛኜኝኞኟአኡኢኣኤእኦኧከኩኪካኬክኮኳኸኹኺኻኼኽኾወዉዊዋዌውዎዐዑዒዓዔዕዖቀቁቂቃቄቅቆቋቌቍቐቑቒቓቔቕቖቘ቙ቚቛቜቝ቞በቡቢባቤብቦቧቨቩቪቫቬቭቮቯተቱቲታቴትቶቷቸቹቺቻቼችቾኀኁኂኃኄኅኆኋኌኍነኑኒናኔንኖኗ'.split(''), // Amharic letters
+      letters:
+          'አኡኢኣኤእኦኧከኩኪካኬክኮኳኸኹኺኻኼኽኾወዉዊዋዌውዎዐዑዒዓዔዕዖቀቁቂቃቄቅቆቋቌቍቐቑቒቓቔቕቖቘ቙ቚቛቜቝ቞በቡቢባቤብቦቧቨቩቪቫቬቭቮቯተቱቲታቴትቶቷቸቹቺቻቼችቾኀኁኂኃኄኅኆኋኌኍነኑኒናኔንኖኗኘኙኚኛኜኝኞኟአኡኢኣኤእኦኧከኩኪካኬክኮኳኸኹኺኻኼኽኾወዉዊዋዌውዎዐዑዒዓዔዕዖቀቁቂቃቄቅቆቋቌቍቐቑቒቓቔቕቖቘ቙ቚቛቜቝ቞በቡቢባቤብቦቧቨቩቪቫቬቭቮቯተቱቲታቴትቶቷቸቹቺቻቼችቾኀኁኂኃኄኅኆኋኌኍነኑኒናኔንኖኗ'
+              .split(''), // Amharic letters
     );
 
     // Test for exact match
@@ -15,7 +16,8 @@ void main() {
 
     // Test for a close match
     // Both translate to the american greeting 'Hello' a.k.a 'Selam'
-    didYouMean = spellCheck.didYouMeanWord('ሰላምም'); // 'Peace' with an extra letter
+    didYouMean =
+        spellCheck.didYouMeanWord('ሰላምም'); // 'Peace' with an extra letter
     expect(didYouMean, 'ሰላም'); // 'Peace'
 
     // Test for a completely different word

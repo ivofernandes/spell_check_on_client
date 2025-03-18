@@ -2,19 +2,56 @@ abstract class WordGenerationReplace {
   static const String vowels = 'aeiouáéíóúàèìòùâêîôûäöüãõyåøæı';
 
   static final Map<String, String> _accentMap = {
-    'á': 'a', 'à': 'a', 'â': 'a', 'ä': 'a', 'ã': 'a', 'å': 'a',
-    'é': 'e', 'è': 'e', 'ê': 'e', 'ë': 'e',
-    'í': 'i', 'ì': 'i', 'î': 'i', 'ï': 'i',
-    'ó': 'o', 'ò': 'o', 'ô': 'o', 'ö': 'o', 'õ': 'o',
-    'ú': 'u', 'ù': 'u', 'û': 'u', 'ü': 'u',
-    'Á': 'A', 'À': 'A', 'Â': 'A', 'Ä': 'A', 'Ã': 'A', 'Å': 'A',
-    'É': 'E', 'È': 'E', 'Ê': 'E', 'Ë': 'E',
-    'Í': 'I', 'Ì': 'I', 'Î': 'I', 'Ï': 'I',
-    'Ó': 'O', 'Ò': 'O', 'Ô': 'O', 'Ö': 'O', 'Õ': 'O',
-    'Ú': 'U', 'Ù': 'U', 'Û': 'U', 'Ü': 'U',
+    'á': 'a',
+    'à': 'a',
+    'â': 'a',
+    'ä': 'a',
+    'ã': 'a',
+    'å': 'a',
+    'é': 'e',
+    'è': 'e',
+    'ê': 'e',
+    'ë': 'e',
+    'í': 'i',
+    'ì': 'i',
+    'î': 'i',
+    'ï': 'i',
+    'ó': 'o',
+    'ò': 'o',
+    'ô': 'o',
+    'ö': 'o',
+    'õ': 'o',
+    'ú': 'u',
+    'ù': 'u',
+    'û': 'u',
+    'ü': 'u',
+    'Á': 'A',
+    'À': 'A',
+    'Â': 'A',
+    'Ä': 'A',
+    'Ã': 'A',
+    'Å': 'A',
+    'É': 'E',
+    'È': 'E',
+    'Ê': 'E',
+    'Ë': 'E',
+    'Í': 'I',
+    'Ì': 'I',
+    'Î': 'I',
+    'Ï': 'I',
+    'Ó': 'O',
+    'Ò': 'O',
+    'Ô': 'O',
+    'Ö': 'O',
+    'Õ': 'O',
+    'Ú': 'U',
+    'Ù': 'U',
+    'Û': 'U',
+    'Ü': 'U',
   };
 
-  static List<String> replace(String wordMisspelled, List<String> letters, {bool replaceVowels = false}) {
+  static List<String> replace(String wordMisspelled, List<String> letters,
+      {bool replaceVowels = false}) {
     if (wordMisspelled.length <= 1) {
       return [];
     }
@@ -61,13 +98,11 @@ abstract class WordGenerationReplace {
     return replaced;
   }
 
-  static String _replaceChar(String word, int index, String newChar) {
-    return word.substring(0, index) + newChar + word.substring(index + 1);
-  }
+  static String _replaceChar(String word, int index, String newChar) =>
+      word.substring(0, index) + newChar + word.substring(index + 1);
 
-  static bool _isVowel(String ch) {
-    return vowels.contains(_toBaseChar(ch).toLowerCase());
-  }
+  static bool _isVowel(String ch) =>
+      vowels.contains(_toBaseChar(ch).toLowerCase());
 
   static String _toBaseChar(String ch) => _accentMap[ch] ?? ch;
 }
