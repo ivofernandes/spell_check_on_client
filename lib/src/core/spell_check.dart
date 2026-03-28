@@ -38,13 +38,16 @@ class SpellCheck {
 
   bool get hasRelevance => useMapValuesAsRelevance ?? words is Map<String, int>;
 
+  bool _containsWord(String word) =>
+      words.containsKey(word) || words.containsKey(word.toLowerCase());
+
   /// Returns a list of words in the text that were not found in the dictionary
   List<String> unKnownWords(String text) {
     final List<String> unknownWords = [];
 
     final List<String> blocks = WordTokenizer.tokenize(text);
     for (final String word in blocks) {
-      if (!words.containsKey(word)) {
+      if (!_containsWord(word)) {
         unknownWords.add(word);
       }
     }
@@ -55,9 +58,13 @@ class SpellCheck {
   /// Returns percentage of words that were found in the dictionary
   double getPercentageCorrect(String text) {
     final List<String> blocks = WordTokenizer.tokenize(text);
+    if (blocks.isEmpty) {
+      return 0;
+    }
+
     int correctWords = 0;
     for (final String word in blocks) {
-      if (words.containsKey(word)) {
+      if (_containsWord(word)) {
         correctWords++;
       }
     }
@@ -66,7 +73,7 @@ class SpellCheck {
   }
 
   /// Check if the word exists
-  bool isCorrect(String word) => words.containsKey(word);
+  bool isCorrect(String word) => _containsWord(word);
 
   /// Returns empty string if thinks the content is fine
   /// or some text if it thinks you mean something else

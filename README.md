@@ -1,6 +1,6 @@
 [![pub package](https://img.shields.io/pub/v/spell_check_on_client.svg?label=spell_check_on_client&color=blue)](https://pub.dev/packages/spell_check_on_client)
 [![likes](https://img.shields.io/pub/likes/spell_check_on_client?logo=dart)](https://pub.dev/packages/spell_check_on_client/score)
-[![pub points](https://img.shields.io/pub/points/sentry?logo=dart)](https://pub.dev/packages/spell_check_on_client/score)
+[![pub points](https://img.shields.io/pub/points/spell_check_on_client?logo=dart)](https://pub.dev/packages/spell_check_on_client/score)
 
 # Context
 Traditionally, spell checking is performed server-side; however, this isn't a necessity. The spell_check_on_client package brings efficient, offline spell checking directly to the client side, saving on cloud costs and providing rapid response times.
@@ -10,7 +10,7 @@ By embedding a compact 1.5MB dictionary text file, your application can perform 
 ![Spell check](https://raw.githubusercontent.com/ivofernandes/spell_check_on_client/master/doc/screenshot.png?raw=true)
 
 # How this package works
-This package uses an hashset comparison algorithm to deliver a spell check that can work offline in the client side 
+This package uses a hash-set comparison algorithm to deliver spell check that works fully offline on the client side.
 
 ## Features
 - Tokenize a string with multiple words into single word tokens
@@ -28,12 +28,21 @@ https://www.youtube.com/watch?v=YbMR9CEbvCE
 Add the dependency to your `pubspec.yaml`:
 
 ```
-spell_check_on_client: ^0.0.8
+spell_check_on_client: ^1.0.0
 ```
+
+If you are starting a new integration, prefer the latest stable major (`^1.x`) unless you have a compatibility reason to stay on `0.x`.
+
+If your project still resolves to `0.x`, check:
+- `pubspec.yaml` constraints (for example, a direct pin like `0.0.9`)
+- `pubspec.lock` committed in apps
+- transitive constraints from internal packages in a mono-repo
 
 ## Usage
 
-To use this package you will need to add the list of words as an asset inside your app:
+To use this package you will need to add a list of words as an asset inside your app.
+
+Languages available in `example/assets`:
 - German - de_words.txt
 - English - en_words.txt
 - Spanish - es_words.txt
@@ -42,26 +51,30 @@ To use this package you will need to add the list of words as an asset inside yo
 - Norwegian - no_words.txt
 - Portuguese - pt_words.txt
 - Swedish - sv_words.txt
+- Arabic - ar_words.txt
+- Japanese - ja_words.txt
+- Chinese - zh_words.txt
 
 You can find the file assets here:
 
 https://github.com/ivofernandes/spell_check_on_client/tree/master/example/assets
 
 
-Then you need to init the check spell in an async method:
+Then initialize the spell checker in an async method:
 ```dart
- SpellCheck
-  void initSpellCheck() async {
-      String language = 'en';
-      String content = await rootBundle.loadString('assets/${language}_words.txt');
-       spellCheck = SpellCheck.fromWordsContent(content,
-          letters: LanguageLetters.getLanguageForLanguage(language));
-  }
+void initSpellCheck() async {
+  const language = 'en';
+  final content = await rootBundle.loadString('assets/${language}_words.txt');
+  spellCheck = SpellCheck.fromWordsContent(
+    content,
+    letters: LanguageLetters.getLanguageForLanguage(language),
+  );
+}
 ```
 
-Then you just need to call the did you mean method to receive a suggestion or an empty string if every word exists
+Then call `didYouMean` to receive a suggestion (or an empty string when every word exists):
 ```dart
-  String didYouMean = spellCheck.didYouMean(text);
+final didYouMean = spellCheck.didYouMean(text);
 ```
 
 If it looks to hard to use you can always start your app by forking this example app:

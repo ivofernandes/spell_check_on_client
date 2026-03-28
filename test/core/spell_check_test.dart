@@ -16,6 +16,11 @@ void main() {
       expect(unknownWords, equals(['a', 'and']));
     });
 
+    test('Treat known words as case-insensitive in unknown words list', () {
+      final List<String> unknownWords = spellCheck.unKnownWords('Cat BAT dog');
+      expect(unknownWords, equals(['dog']));
+    });
+
     test('Correct a word with an extra letter', () {
       final String correction = spellCheck.didYouMean('crat');
       expect(correction, equals('cat'));
@@ -33,6 +38,15 @@ void main() {
 
       final String correction = spellCheck.didYouMean('bar');
       expect(correction, equals('bat'));
+    });
+
+    test('Return zero correctness for empty text', () {
+      expect(spellCheck.getPercentageCorrect(''), equals(0));
+    });
+
+    test('Check words case-insensitively', () {
+      expect(spellCheck.isCorrect('CAT'), isTrue);
+      expect(spellCheck.isCorrect('dog'), isFalse);
     });
   });
 }
