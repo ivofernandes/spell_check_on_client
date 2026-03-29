@@ -13,7 +13,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) => MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Spell check',
-        theme: ThemeData.dark(),
+        theme: ThemeData(
+          useMaterial3: true,
+          brightness: Brightness.dark,
+          colorScheme: ColorScheme.fromSeed(
+            brightness: Brightness.dark,
+            seedColor: const Color(0xFF4B8BFF),
+          ),
+          scaffoldBackgroundColor: const Color(0xFF0F172A),
+        ),
         home: const LanguageSelection(),
       );
 }
@@ -35,8 +43,8 @@ class _LanguageSelectionState extends State<LanguageSelection> {
     'Italiano': 'it',
     'Deutsch': 'de',
     'Français': 'fr',
-    'Norsk': 'no', // Norwegian
-    'Svenska': 'sv', // Swedish
+    'Norsk': 'no',
+    'Svenska': 'sv',
     'Amharic': 'am',
     'Arabic': 'ar',
     'Chinese': 'zh',
@@ -47,37 +55,50 @@ class _LanguageSelectionState extends State<LanguageSelection> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-      appBar: AppBar(
-        title: const Text('Spell check'),
-        actions: [
-          DropdownButton<String>(
-            value: language,
-            icon: const Icon(Icons.arrow_drop_down),
-            underline: Container(height: 0, color: Colors.transparent),
-            onChanged: (String? newValue) {
-              if (newValue != null) {
-                setState(() {
-                  language = newValue;
-                });
-              }
-            },
-            items: languages.keys
-                .map<DropdownMenuItem<String>>(
-                    (String language) => DropdownMenuItem<String>(
-                          value: language,
-                          child: Text(language),
-                        ))
-                .toList(),
+        appBar: AppBar(
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('Spell check'),
+              Text(
+                'On-device • fast',
+                style: Theme.of(context).textTheme.labelMedium,
+              ),
+            ],
           ),
-          const SizedBox(
-            width: 10,
-          )
-        ],
-      ),
-      body: SpellCheckExample(
-        language: languages[language]!,
-        key: UniqueKey(),
-      ));
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 12),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<String>(
+                  value: language,
+                  borderRadius: BorderRadius.circular(12),
+                  icon: const Icon(Icons.keyboard_arrow_down_rounded),
+                  onChanged: (String? newValue) {
+                    if (newValue != null) {
+                      setState(() {
+                        language = newValue;
+                      });
+                    }
+                  },
+                  items: languages.keys
+                      .map<DropdownMenuItem<String>>(
+                        (String selectedLanguage) => DropdownMenuItem<String>(
+                          value: selectedLanguage,
+                          child: Text(selectedLanguage),
+                        ),
+                      )
+                      .toList(),
+                ),
+              ),
+            ),
+          ],
+        ),
+        body: SpellCheckExample(
+          language: languages[language]!,
+          key: ValueKey(language),
+        ),
+      );
 }
 
 class SpellCheckExample extends StatefulWidget {
@@ -94,10 +115,12 @@ class SpellCheckExample extends StatefulWidget {
 
 class _SpellCheckExampleState extends State<SpellCheckExample> {
   final TextEditingController suggestionController = TextEditingController();
+  final TextEditingController controller = TextEditingController();
+  final TextEditingController logController = TextEditingController();
+
   String didYouMean = '';
+  bool isLoadingDictionary = true;
   SpellCheck spellCheck = SpellCheck.fromWordsList(['cat', 'bat', 'hat']);
-  TextEditingController controller = TextEditingController();
-  TextEditingController logController = TextEditingController();
 
   @override
   void initState() {
@@ -106,77 +129,145 @@ class _SpellCheckExampleState extends State<SpellCheckExample> {
   }
 
   @override
-  Widget build(BuildContext context) => SingleChildScrollView(
-        child: Container(
-          margin: const EdgeInsets.all(10),
-          child: Column(
-            children: [
-              TextFormField(
-                maxLines: 4,
-                controller: controller,
-                decoration: InputDecoration(
-                    focusColor: Theme.of(context).textTheme.bodyLarge!.color,
-                    contentPadding: const EdgeInsets.all(10),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(
-                            color: Theme.of(context).colorScheme.primary)),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(
-                            color: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .color!))),
-              ),
-              MaterialButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                elevation: 10,
-                color: Theme.of(context).colorScheme.primary,
-                onPressed: spellCheckValidate,
-                child: const Text('Spell check'),
-              ),
-              didYouMean == ''
-                  ? const SizedBox()
-                  : Column(
-                      children: [
-                        SelectableText('Did you mean $didYouMean?'),
-                      ],
-                    ),
-              const SizedBox(
-                height: 20,
-              ),
-              TextField(
-                enabled: false,
-                minLines: 10,
-                maxLines: 1000,
-                controller: logController,
-              ),
-              MaterialButton(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+  void dispose() {
+    suggestionController.dispose();
+    controller.dispose();
+    logController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => SafeArea(
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 780),
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    'Text to spell check',
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
-                  elevation: 10,
-                  color: Theme.of(context).colorScheme.primary,
-                  onPressed: clearLogs,
-                  child: const Text('Clear logs'))
-            ],
+                  const SizedBox(height: 10),
+                  TextFormField(
+                    minLines: 5,
+                    maxLines: 8,
+                    controller: controller,
+                    decoration: InputDecoration(
+                      hintText: 'Type a sentence with mistakes to test suggestions…',
+                      filled: true,
+                      fillColor: const Color(0xFF111827),
+                      contentPadding: const EdgeInsets.all(14),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+                  ElevatedButton.icon(
+                    onPressed: isLoadingDictionary ? null : spellCheckValidate,
+                    icon: isLoadingDictionary
+                        ? const SizedBox(
+                            width: 16,
+                            height: 16,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : const Icon(Icons.spellcheck_rounded),
+                    label: Text(
+                      isLoadingDictionary
+                          ? 'Loading dictionary…'
+                          : 'Spell check now',
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+                  AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 180),
+                    child: didYouMean.isEmpty
+                        ? const SizedBox.shrink()
+                        : Card(
+                            key: ValueKey(didYouMean),
+                            color: const Color(0xFF1E293B),
+                            child: Padding(
+                              padding: const EdgeInsets.all(14),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Suggestion',
+                                    style:
+                                        Theme.of(context).textTheme.titleSmall,
+                                  ),
+                                  const SizedBox(height: 8),
+                                  SelectableText(
+                                    didYouMean,
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                  ),
+                  const SizedBox(height: 18),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'Performance logs',
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                      ),
+                      TextButton.icon(
+                        onPressed: clearLogs,
+                        icon: const Icon(Icons.delete_outline_rounded),
+                        label: const Text('Clear'),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  TextField(
+                    enabled: false,
+                    minLines: 8,
+                    maxLines: 14,
+                    controller: logController,
+                    style: const TextStyle(fontFamily: 'monospace'),
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: const Color(0xFF020617),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
       );
 
   Future<void> initSpellCheck() async {
+    setState(() {
+      isLoadingDictionary = true;
+      didYouMean = '';
+      logController.text = '';
+    });
+
     final DateTime start = DateTime.now();
     final String content =
         await rootBundle.loadString('assets/${widget.language}_words.txt');
 
-    spellCheck = SpellCheck.fromWordsContent(content,
-        letters: LanguageLetters.getLanguageForLanguage(widget.language));
+    spellCheck = SpellCheck.fromWordsContent(
+      content,
+      letters: LanguageLetters.getLanguageForLanguage(widget.language),
+    );
     final DateTime parsed = DateTime.now();
 
-    // Update the text controller with the sample text for the selected language
     final Map<String, String> sampleTexts = {
       'en': 'This is an exammple senttence in English.',
       'pt': 'Este é um exemmplo de frase em Português.',
@@ -196,24 +287,32 @@ class _SpellCheckExampleState extends State<SpellCheckExample> {
 
     final int timeSpent =
         parsed.millisecondsSinceEpoch - start.millisecondsSinceEpoch;
-    logController.text += 'Load ${timeSpent}ms\n';
-    debugPrint('Time spent');
+
+    setState(() {
+      isLoadingDictionary = false;
+      logController.text += 'Load ${timeSpent}ms\n';
+    });
   }
 
   void spellCheckValidate() {
     final DateTime start = DateTime.now();
     final String text = controller.text;
-    didYouMean = spellCheck.didYouMean(text);
-    suggestionController.text = 'Did you mean: $didYouMean';
+    final String suggestion = spellCheck.didYouMean(text);
     final DateTime end = DateTime.now();
 
     final int timeSpent =
         end.millisecondsSinceEpoch - start.millisecondsSinceEpoch;
-    logController.text += 'Checked ${timeSpent}ms\n';
-    setState(() {});
+
+    setState(() {
+      didYouMean = suggestion;
+      suggestionController.text = 'Did you mean: $didYouMean';
+      logController.text += 'Checked ${timeSpent}ms\n';
+    });
   }
 
   void clearLogs() {
-    logController.text = '';
+    setState(() {
+      logController.text = '';
+    });
   }
 }
