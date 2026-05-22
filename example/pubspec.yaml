@@ -37,6 +37,8 @@ dependencies:
   spell_check_on_client:
     path: ../
 dev_dependencies:
+  integration_test:
+    sdk: flutter
   flutter_test:
     sdk: flutter
 
