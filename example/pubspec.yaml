@@ -37,6 +37,7 @@ dependencies:
   spell_check_on_client:
     path: ../
 dev_dependencies:
+  patrol: ^4.6.1
   integration_test:
     sdk: flutter
   flutter_test:
@@ -89,3 +90,6 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+patrol:
+  test_directory: integration_test

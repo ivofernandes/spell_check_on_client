@@ -48,3 +48,5 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 /screenshots/
+/screenshots_patrol/
+/integration_test/test_bundle.dart
