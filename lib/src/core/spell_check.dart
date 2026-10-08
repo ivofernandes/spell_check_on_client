@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:spell_check_on_client/src/core/find_words/find_closest_word.dart';
+import 'package:spell_check_on_client/src/core/find_words/unicode_candidates.dart';
 import 'package:spell_check_on_client/src/core/language_letters.dart';
 import 'package:spell_check_on_client/src/core/word_tokenizer.dart';
 
@@ -29,6 +30,7 @@ class SpellCheck {
 
   /// The letters that are allowed in the language
   /// If not provided will use a generic combination of all letters
+  /// Non-Latin suggestions search the dictionary directly instead.
   /// So this parameter is optional and only related to performance
   final List<String>? letters;
 
@@ -45,7 +47,7 @@ class SpellCheck {
   List<String> unKnownWords(String text) {
     final List<String> unknownWords = [];
 
-    final List<String> blocks = WordTokenizer.tokenize(text);
+    final List<String> blocks = WordTokenizer.tokenize(text, dictionary: words);
     for (final String word in blocks) {
       if (!_containsWord(word)) {
         unknownWords.add(word);
@@ -57,7 +59,7 @@ class SpellCheck {
 
   /// Returns percentage of words that were found in the dictionary
   double getPercentageCorrect(String text) {
-    final List<String> blocks = WordTokenizer.tokenize(text);
+    final List<String> blocks = WordTokenizer.tokenize(text, dictionary: words);
     if (blocks.isEmpty) {
       return 0;
     }
@@ -78,10 +80,25 @@ class SpellCheck {
   /// Returns empty string if thinks the content is fine
   /// or some text if it thinks you mean something else
   String didYouMean(String contentToCheck) {
+    if (UnicodeCandidates.applies(contentToCheck)) {
+      final tokens = WordTokenizer.tokenize(contentToCheck, dictionary: words);
+      final result = StringBuffer();
+      var offset = 0;
+      for (final token in tokens) {
+        final start = contentToCheck.indexOf(token, offset);
+        result.write(contentToCheck.substring(offset, start));
+        final correction = didYouMeanWord(token);
+        result.write(correction.isEmpty ? token : correction);
+        offset = start + token.length;
+      }
+      result.write(contentToCheck.substring(offset));
+      return result.toString();
+    }
     String didYouMean = '';
 
     bool corrected = false;
-    final List<String> blocks = WordTokenizer.tokenize(contentToCheck);
+    final List<String> blocks =
+        WordTokenizer.tokenize(contentToCheck, dictionary: words);
     final List<String> checkedBlocks = [];
     for (final String word in blocks) {
       final String correctWord = didYouMeanWord(word);
@@ -108,6 +125,14 @@ class SpellCheck {
 
   /// Check a single word
   String didYouMeanWord(String word) {
+    if (_containsWord(word)) {
+      return word;
+    }
+    if (UnicodeCandidates.applies(word)) {
+      final matches =
+          UnicodeCandidates.find(words, word, iterations, hasRelevance, 1);
+      return matches.isEmpty ? '' : matches.first;
+    }
     if (words[word.toLowerCase()] == null) {
       return FindClosestWord.find(words, word,
           letters ?? LanguageLetters.getAllLetters, iterations, hasRelevance);
@@ -121,6 +146,13 @@ class SpellCheck {
     String wordInput, {
     int maxWords = 50,
   }) {
+    if (maxWords <= 0) {
+      return [];
+    }
+    if (UnicodeCandidates.applies(wordInput)) {
+      return UnicodeCandidates.find(
+          words, wordInput, iterations, hasRelevance, maxWords);
+    }
     List<String> result = FindClosestWord.list(
       words,
       wordInput,
@@ -147,7 +179,11 @@ class SpellCheck {
     int value = wordsList.length;
 
     for (final String word in wordsList) {
-      words[word] = value;
+      final cleaned = word.replaceAll('\uFEFF', '').trim();
+      if (cleaned.isEmpty) {
+        continue;
+      }
+      words[cleaned] = value;
       value--;
     }
 
